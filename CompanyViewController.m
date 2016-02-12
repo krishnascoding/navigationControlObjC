@@ -34,9 +34,11 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.companyList = [[NSMutableArray alloc] initWithObjects:@"Apple mobile devices",@"Samsung mobile devices", @"Microsoft", @"Dell", nil];
+    self.companyLogos = [[NSMutableArray alloc] initWithObjects:@"appleimage.jpg", @"samsunglogo.jpg", @"microsoftlogo.png", @"delllogo.jpg", nil];
     
-    
-    self.companyList = @[@"Apple mobile devices",@"Samsung mobile devices"];
+//    self.companyList = @[@"Apple mobile devices",@"Samsung mobile devices", @"Microsoft", @"Dell"];
+//    self.companyLogos = @[@"appleimage.jpg", @"samsunglogo.jpg", @"microsoftlogo.png", @"delllogo.jpg"];
     self.title = @"Mobile device makers";
     
     
@@ -52,14 +54,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
+//#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
+//#warning Incomplete method implementation.
     // Return the number of rows in the section.
     return [self.companyList count];
 }
@@ -75,48 +77,64 @@
     // Configure the cell...
     
     cell.textLabel.text = [self.companyList objectAtIndex:[indexPath row]];
+    [[cell imageView] setImage:[UIImage imageNamed:self.companyLogos[indexPath.row]]];
     
     return cell;
 }
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-/*
+
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        
+        [self.companyList removeObjectAtIndex:indexPath.row];
+        [self.companyLogos removeObjectAtIndex:indexPath.row];
+        
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    }
+    
+    [tableView reloadData];
 }
-*/
 
-/*
+
+
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
+    //Move items around in companyList array
+    id company = [[[self.companyList objectAtIndex:fromIndexPath.row] retain] autorelease];
+    [self.companyList removeObjectAtIndex:fromIndexPath.row];
+    [self.companyList insertObject:company atIndex:toIndexPath.row];
+    //Move items around in companyLogos array
+    id logo = [[[self.companyLogos objectAtIndex:fromIndexPath.row] retain] autorelease];
+    [self.companyLogos removeObjectAtIndex:fromIndexPath.row];
+    [self.companyLogos insertObject:logo atIndex:toIndexPath.row];
+    
 }
-*/
 
-/*
+
+
 // Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the item to be re-orderable.
     return YES;
 }
-*/
+
 
 
 #pragma mark - Table view delegate
@@ -126,19 +144,20 @@
 {
 
 
-    if (indexPath.row == 0){
-        self.productViewController.title = @"Apple mobile devices";
-    } else {
-        self.productViewController.title = @"Samsung mobile devices";
-    }
+//    if (indexPath.row == 0){
+//        self.productViewController.title = @"Apple mobile devices";
+//    } else {
+//        self.productViewController.title = @"Samsung mobile devices";
+//    }
+    
+    self.productViewController.title = self.companyList[indexPath.row];
+    self.productViewController.currentCompany = self.companyList[indexPath.row];
     
     [self.navigationController
         pushViewController:self.productViewController
         animated:YES];
-    
 
 }
- 
 
 
 @end
