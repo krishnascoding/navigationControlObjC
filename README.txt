@@ -1,7 +1,7 @@
 Assignment
 ----------
 
-BRANCH One
+BRANCH Two now
 
 1. Add two more companies to the start page
 2. Add 3 products for each company
