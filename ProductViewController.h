@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CompanyViewController.h"
+#import "Company.h"
 
 @interface ProductViewController : UITableViewController
 @property (nonatomic, retain) NSMutableArray *products;
@@ -14,8 +16,9 @@
 @property (nonatomic, retain) NSMutableDictionary *productURLs;
 @property (nonatomic, retain) NSMutableDictionary *productImages;
 
-@property (nonatomic, retain) NSString *currentCompany;
+@property (nonatomic, retain) Company *currentCompany;
 @property (nonatomic, retain) NSString *currentProduct;
 
+@property (nonatomic, retain) NSMutableArray *companyList;
 
 @end

@@ -10,4 +10,9 @@
 
 @interface Product : NSObject
 
+@property (nonatomic, retain) NSString *productName;
+@property (nonatomic, retain) NSString *productURL;
+@property (nonatomic, retain) NSString *productImage;
+
+-(instancetype)initWithName:(NSString *)productName url:(NSString *)productURL andImage:(NSString *)productImage;
 @end

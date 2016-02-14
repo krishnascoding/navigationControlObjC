@@ -10,4 +10,19 @@
 
 @implementation Product
 
+-(instancetype)initWithName:(NSString *)productName url:(NSString *)productURL andImage:(NSString *)productImage
+{
+    self = [super init];
+    
+    if (self) {
+        _productName = productName;
+        _productURL = productURL;
+        _productImage = productImage;
+        
+        return self;
+    }
+    
+    return nil;
+}
+
 @end

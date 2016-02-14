@@ -12,6 +12,8 @@
 @interface ProductViewController ()
 //@property (nonatomic, retain) MyWebViewViewController *myWebView;
 
+@property (nonatomic, retain) CompanyViewController *companyVC;
+
 @end
 
 @implementation ProductViewController
@@ -35,26 +37,48 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    //Company list - same as  as CompanyViewController
+//    self.companyList = [[NSMutableArray alloc] initWithObjects:apple, samsung, microsoft, dell, nil];
+    
     // Company products dictionary
-    self.companyProducts = [[NSMutableDictionary alloc] init];
-    [self.companyProducts setValue:[NSMutableArray arrayWithArray: @[@"Galaxy S4", @"Galaxy Note", @"Galaxy Tab"]] forKey:@"Samsung mobile devices"];
-    [self.companyProducts setValue:[NSMutableArray arrayWithArray: @[@"iPad", @"iPod Touch",@"iPhone"]] forKey:@"Apple mobile devices"];
-    [self.companyProducts setValue:[NSMutableArray arrayWithArray:@[@"Windows",@"Office", @"Lumia"]] forKey:@"Microsoft"];
-    [self.companyProducts setValue:[NSMutableArray arrayWithArray:@[@"Inspiron",@"Chromebook", @"Venue Pro"]] forKey:@"Dell"];
+//    self.companyProducts = [[NSMutableDictionary alloc] init];
+//    [self.companyProducts setValue:[NSMutableArray arrayWithArray: @[@"Galaxy S4", @"Galaxy Note", @"Galaxy Tab"]] forKey:@"Samsung mobile devices"];
+//    [self.companyProducts setValue:[NSMutableArray arrayWithArray: @[@"iPad", @"iPod Touch",@"iPhone"]] forKey:@"Apple mobile devices"];
+//    [self.companyProducts setValue:[NSMutableArray arrayWithArray:@[@"Windows",@"Office", @"Lumia"]] forKey:@"Microsoft"];
+//    [self.companyProducts setValue:[NSMutableArray arrayWithArray:@[@"Inspiron",@"Chromebook", @"Venue Pro"]] forKey:@"Dell"];
+//    
+//    // Product URL dictionary
+//    self.productURLs = [[NSMutableDictionary alloc] init];
+//    [self.productURLs setValue:[NSMutableArray arrayWithArray:@[@"http://www.samsung.com/global/microsite/galaxys4/", @"http://www.samsung.com/global/microsite/galaxynote/note/index.html?type=find", @"http://www.samsung.com/us/mobile/galaxy-tab/"]] forKey:@"Samsung mobile devices"];
+//    [self.productURLs setValue:[NSMutableArray arrayWithArray:@[@"http://www.apple.com/ipad/", @"http://www.apple.com/ipod-touch/",@"http://www.apple.com/iphone/"]] forKey:@"Apple mobile devices"];
+//    [self.productURLs setValue:[NSMutableArray arrayWithArray:@[@"https://www.microsoft.com/en-us/windows/",@"https://products.office.com/en-us/home", @"https://www.microsoft.com/en-us/mobile/"]] forKey:@"Microsoft"];
+//    [self.productURLs setValue:[NSMutableArray arrayWithArray:@[@"http://www.dell.com/us/p/laptops/inspiron-laptops",@"http://www.dell.com/us/business/p/chromebook-13-7310/pd?oc=ss0010c731013us&model_id=chromebook-13-7310", @"http://www.dell.com/us/business/p/dell-venue-8-pro-5855-tablet/pd?oc=bto10005t58558usca&model_id=dell-venue-8-pro-5855-tablet&l=en&s=bsd"]] forKey:@"Dell"];
+//    
+//    // Product image dictionary
+//    self.productImages = [[NSMutableDictionary alloc] init];
+//    [self.productImages setValue:[NSMutableArray arrayWithArray:@[@"galaxys4.jpg", @"galaxynote.jpg", @"galaxytab.jpg"]] forKey:@"Samsung mobile devices"];
+//    [self.productImages setValue:[NSMutableArray arrayWithArray:@[@"ipad.jpg", @"ipodtouch.jpg",@"iphone.jpg"]] forKey:@"Apple mobile devices"];
+//    [self.productImages setValue:[NSMutableArray arrayWithArray:@[@"windows.jpg",@"office.jpg", @"lumia.png"]] forKey:@"Microsoft"];
+//    [self.productImages setValue:[NSMutableArray arrayWithArray:@[@"inspiron.jpg",@"chromebook.jpg", @"venuepro.jpg"]] forKey:@"Dell"];
+//    
+//    
     
-    // Product URL dictionary
-    self.productURLs = [[NSMutableDictionary alloc] init];
-    [self.productURLs setValue:[NSMutableArray arrayWithArray:@[@"http://www.samsung.com/global/microsite/galaxys4/", @"http://www.samsung.com/global/microsite/galaxynote/note/index.html?type=find", @"http://www.samsung.com/us/mobile/galaxy-tab/"]] forKey:@"Samsung mobile devices"];
-    [self.productURLs setValue:[NSMutableArray arrayWithArray:@[@"http://www.apple.com/ipad/", @"http://www.apple.com/ipod-touch/",@"http://www.apple.com/iphone/"]] forKey:@"Apple mobile devices"];
-    [self.productURLs setValue:[NSMutableArray arrayWithArray:@[@"https://www.microsoft.com/en-us/windows/",@"https://products.office.com/en-us/home", @"https://www.microsoft.com/en-us/mobile/"]] forKey:@"Microsoft"];
-    [self.productURLs setValue:[NSMutableArray arrayWithArray:@[@"http://www.dell.com/us/p/laptops/inspiron-laptops",@"http://www.dell.com/us/business/p/chromebook-13-7310/pd?oc=ss0010c731013us&model_id=chromebook-13-7310", @"http://www.dell.com/us/business/p/dell-venue-8-pro-5855-tablet/pd?oc=bto10005t58558usca&model_id=dell-venue-8-pro-5855-tablet&l=en&s=bsd"]] forKey:@"Dell"];
     
-    // Product image dictionary
-    self.productImages = [[NSMutableDictionary alloc] init];
-    [self.productImages setValue:[NSMutableArray arrayWithArray:@[@"galaxys4.jpg", @"galaxynote.jpg", @"galaxytab.jpg"]] forKey:@"Samsung mobile devices"];
-    [self.productImages setValue:[NSMutableArray arrayWithArray:@[@"ipad.jpg", @"ipodtouch.jpg",@"iphone.jpg"]] forKey:@"Apple mobile devices"];
-    [self.productImages setValue:[NSMutableArray arrayWithArray:@[@"windows.jpg",@"office.jpg", @"lumia.png"]] forKey:@"Microsoft"];
-    [self.productImages setValue:[NSMutableArray arrayWithArray:@[@"inspiron.jpg",@"chromebook.jpg", @"venuepro.jpg"]] forKey:@"Dell"];
+    
+    
+    
+
+    
+    
+//    self.companyVC = [[CompanyViewController alloc] init];
+//    self.companyVC.productViewController = self;
+ 
+
+//    [[[self.companyVC.companyList objectAtIndex:self.currentCompany]  products] addObject:iPad];
+//    [[[self.companyVC.companyList objectAtIndex:self.currentCompany]  products] addObject:iPhone];
+//    [[[self.companyVC.companyList objectAtIndex:self.currentCompany]  products] addObject:iPodTouch];
+
+    
 
 }
 
@@ -62,7 +86,7 @@
     
     [super viewWillAppear:animated];
     
-    self.products = [self.companyProducts valueForKey:self.currentCompany];
+    self.products = self.currentCompany.products;
     
 //    
 //    if ([self.title isEqualToString:@"Apple mobile devices"]) {
@@ -104,7 +128,7 @@
 {
 //#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return [self.products count];
+    return [self.currentCompany.products count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -115,8 +139,10 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     // Configure the cell...
-    cell.textLabel.text = [self.products objectAtIndex:[indexPath row]];
-    [[cell imageView] setImage:[UIImage imageNamed:[[self.productImages objectForKey:self.currentCompany] objectAtIndex:indexPath.row]]];
+    cell.textLabel.text = [[self.products objectAtIndex:[indexPath row]] productName];
+    cell.imageView.image = [UIImage imageNamed:[[self.products objectAtIndex:indexPath.row] productImage]];
+//    [[cell imageView] setImage:[UIImage imageNamed:[[self.productImages objectForKey:self.currentCompany] objectAtIndex:indexPath.row]]];
+    
     
     
     return cell;
@@ -194,8 +220,11 @@
 //     Push the view controller.
     
     MyWebViewViewController *myWebView = [[MyWebViewViewController alloc] init];
-    myWebView.urlString = [[self.productURLs valueForKey:self.currentCompany] objectAtIndex:indexPath.row];
-    myWebView.title = [[self.companyProducts valueForKey:self.currentCompany] objectAtIndex:indexPath.row];
+    myWebView.urlString = [[self.products objectAtIndex:indexPath.row] productURL];
+    myWebView.title = [[self.products objectAtIndex:indexPath.row]productName];
+    
+//    myWebView.urlString = [[self.productURLs valueForKey:self.currentCompany] objectAtIndex:indexPath.row];
+//    myWebView.title = [[self.companyProducts valueForKey:self.currentCompany] objectAtIndex:indexPath.row];
     
     [self.navigationController pushViewController:myWebView animated:YES];
 }
