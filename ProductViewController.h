@@ -17,7 +17,7 @@
 @property (nonatomic, retain) NSMutableDictionary *productImages;
 
 @property (nonatomic, retain) Company *currentCompany;
-@property (nonatomic, retain) NSString *currentProduct;
+@property (nonatomic, retain) Product *currentProduct;
 
 @property (nonatomic, retain) NSMutableArray *companyList;
 

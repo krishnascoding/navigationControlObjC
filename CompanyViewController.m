@@ -149,7 +149,7 @@
         // Delete the row from the data source
         
         [self.companyList removeObjectAtIndex:indexPath.row];
-        [self.companyLogos removeObjectAtIndex:indexPath.row];
+//        [self.companyLogos removeObjectAtIndex:indexPath.row];
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }   
@@ -165,14 +165,18 @@
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
+   
+    
+    
+    
     //Move items around in companyList array
     id company = [[[self.companyList objectAtIndex:fromIndexPath.row] retain] autorelease];
     [self.companyList removeObjectAtIndex:fromIndexPath.row];
     [self.companyList insertObject:company atIndex:toIndexPath.row];
-    //Move items around in companyLogos array
-    id logo = [[[self.companyLogos objectAtIndex:fromIndexPath.row] retain] autorelease];
-    [self.companyLogos removeObjectAtIndex:fromIndexPath.row];
-    [self.companyLogos insertObject:logo atIndex:toIndexPath.row];
+//    //Move items around in companyLogos array
+//    id logo = [[[self.companyLogos objectAtIndex:fromIndexPath.row] retain] autorelease];
+//    [self.companyLogos removeObjectAtIndex:fromIndexPath.row];
+//    [self.companyLogos insertObject:logo atIndex:toIndexPath.row];
     
 }
 

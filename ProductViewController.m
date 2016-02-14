@@ -164,9 +164,12 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
         
-        [[self.companyProducts objectForKey:self.currentCompany] removeObjectAtIndex:indexPath.row];
-        [[self.productImages objectForKey:self.currentCompany] removeObjectAtIndex:indexPath.row];
-        [[self.productURLs objectForKey:self.currentCompany] removeObjectAtIndex:indexPath.row];
+        [self.currentCompany.products removeObjectAtIndex:indexPath.row];
+        
+        
+//        [[self.companyProducts objectForKey:self.currentCompany] removeObjectAtIndex:indexPath.row];
+//        [[self.productImages objectForKey:self.currentCompany] removeObjectAtIndex:indexPath.row];
+//        [[self.productURLs objectForKey:self.currentCompany] removeObjectAtIndex:indexPath.row];
 
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
@@ -183,17 +186,22 @@
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
     //Move item from companyProducts
-    id products = [[[[self.companyProducts objectForKey:self.currentCompany] objectAtIndex:fromIndexPath.row] retain] autorelease];
-    [[self.companyProducts objectForKey:self.currentCompany] removeObjectAtIndex:fromIndexPath.row];
-    [[self.companyProducts objectForKey:self.currentCompany] insertObject:products atIndex:toIndexPath.row];
-    // Move items from companyImages
-    id images = [[[[self.productImages objectForKey:self.currentCompany] objectAtIndex:fromIndexPath.row] retain] autorelease];
-    [[self.productImages objectForKey:self.currentCompany] removeObjectAtIndex:fromIndexPath.row];
-    [[self.productImages objectForKey:self.currentCompany] insertObject:images atIndex:toIndexPath.row];
-    // Move items from productURLs
-    id urls = [[[[self.productURLs objectForKey:self.currentCompany] objectAtIndex:fromIndexPath.row] retain] autorelease];
-    [[self.productURLs objectForKey:self.currentCompany] removeObjectAtIndex:fromIndexPath.row];
-    [[self.productURLs objectForKey:self.currentCompany] insertObject:urls atIndex:toIndexPath.row];
+    id product = [[[self.currentCompany.products objectAtIndex:fromIndexPath.row] retain] autorelease];
+    [self.currentCompany.products removeObjectAtIndex:fromIndexPath.row];
+    [self.currentCompany.products insertObject:product atIndex:toIndexPath.row];
+    
+    
+//    id products = [[[[self.companyProducts objectForKey:self.currentCompany] objectAtIndex:fromIndexPath.row] retain] autorelease];
+//    [[self.companyProducts objectForKey:self.currentCompany] removeObjectAtIndex:fromIndexPath.row];
+//    [[self.companyProducts objectForKey:self.currentCompany] insertObject:products atIndex:toIndexPath.row];
+//    // Move items from companyImages
+//    id images = [[[[self.productImages objectForKey:self.currentCompany] objectAtIndex:fromIndexPath.row] retain] autorelease];
+//    [[self.productImages objectForKey:self.currentCompany] removeObjectAtIndex:fromIndexPath.row];
+//    [[self.productImages objectForKey:self.currentCompany] insertObject:images atIndex:toIndexPath.row];
+//    // Move items from productURLs
+//    id urls = [[[[self.productURLs objectForKey:self.currentCompany] objectAtIndex:fromIndexPath.row] retain] autorelease];
+//    [[self.productURLs objectForKey:self.currentCompany] removeObjectAtIndex:fromIndexPath.row];
+//    [[self.productURLs objectForKey:self.currentCompany] insertObject:urls atIndex:toIndexPath.row];
     
 }
 
@@ -212,10 +220,6 @@
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//     Navigation logic may go here, for example:
-//     Create the next view controller.
-//    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-//
 //     Pass the selected object to the new view controller.
 //     Push the view controller.
     
