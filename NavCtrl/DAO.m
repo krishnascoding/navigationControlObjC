@@ -10,6 +10,18 @@
 
 @implementation DAO
 
++(DAO *)sharedDAO
+{
+    static DAO *_sharedInstance = nil;
+    static dispatch_once_t oncePredicate;
+    dispatch_once(&oncePredicate, ^{
+        _sharedInstance = [[DAO alloc] init];
+    });
+    
+    return _sharedInstance;
+    
+}
+
 -(NSMutableArray *)createCompanies
 {
     Company *apple = [[Company alloc] initWithName:@"Apple mobile devices" logo:@"appleimage.jpg"];
@@ -21,6 +33,8 @@
     Company *dell = [[Company alloc] initWithName:@"Dell" logo:@"delllogo.jpg"];
     
     NSMutableArray *companyList = [[NSMutableArray alloc] initWithObjects:apple, samsung, microsoft, dell, nil];
+    
+    self.companies = companyList;
     
     // Create and add Products to Company instances
     // Apple products

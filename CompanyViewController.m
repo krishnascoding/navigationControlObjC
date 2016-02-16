@@ -36,9 +36,14 @@
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.title = @"Mobile device makers";
     
-    DAO *dao = [[DAO alloc]init];
+    DAO *dao1 = [DAO sharedDAO];
+    [dao1 createCompanies];
+    self.companyList = dao1.companies;
     
-    self.companyList = [dao createCompanies];
+    
+//    DAO *dao2 = [DAO sharedDAO];
+//    dao2.companies;
+    
 
 }
 
@@ -79,7 +84,6 @@
     
     cell.textLabel.text = [[self.companyList objectAtIndex:[indexPath row]] name];
     cell.imageView.image = [UIImage imageNamed:[[self.companyList objectAtIndex:indexPath.row] logo]];
-//    [[cell imageView] setImage:[UIImage imageNamed:self.companyList[indexPath.row]]];
     
     return cell;
 }
@@ -118,8 +122,6 @@
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
    
-    
-    
     
     //Move items around in companyList array
     id company = [[[self.companyList objectAtIndex:fromIndexPath.row] retain] autorelease];
