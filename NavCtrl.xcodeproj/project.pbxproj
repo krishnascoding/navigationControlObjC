@@ -25,6 +25,7 @@
 		48A656EE1816468000746D36 /* Sunflower.gif in Resources */ = {isa = PBXBuildFile; fileRef = 48A656ED1816468000746D36 /* Sunflower.gif */; };
 		6BDBE9191C6E83C500619E4D /* Company.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDBE9181C6E83C500619E4D /* Company.m */; };
 		6BDBE91E1C6E841000619E4D /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDBE91D1C6E841000619E4D /* Product.m */; };
+		6BDBE9E21C737F9B00619E4D /* DAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDBE9E11C737F9B00619E4D /* DAO.m */; };
 		6BE7444A1C6D372D0026B08C /* delllogo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BE744491C6D372D0026B08C /* delllogo.jpg */; };
 		6BE7444C1C6D37380026B08C /* microsoftlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BE7444B1C6D37380026B08C /* microsoftlogo.png */; };
 		6BE7444E1C6D373F0026B08C /* samsunglogo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BE7444D1C6D373F0026B08C /* samsunglogo.jpg */; };
@@ -82,6 +83,8 @@
 		6BDBE9181C6E83C500619E4D /* Company.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Company.m; sourceTree = "<group>"; };
 		6BDBE91C1C6E841000619E4D /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Product.h; path = ../Product.h; sourceTree = "<group>"; };
 		6BDBE91D1C6E841000619E4D /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Product.m; path = ../Product.m; sourceTree = "<group>"; };
+		6BDBE9E01C737F9B00619E4D /* DAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAO.h; sourceTree = "<group>"; };
+		6BDBE9E11C737F9B00619E4D /* DAO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAO.m; sourceTree = "<group>"; };
 		6BE744491C6D372D0026B08C /* delllogo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = delllogo.jpg; sourceTree = "<group>"; };
 		6BE7444B1C6D37380026B08C /* microsoftlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = microsoftlogo.png; sourceTree = "<group>"; };
 		6BE7444D1C6D373F0026B08C /* samsunglogo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = samsunglogo.jpg; sourceTree = "<group>"; };
@@ -189,6 +192,8 @@
 		48A656BA18163BF200746D36 /* NavCtrl */ = {
 			isa = PBXGroup;
 			children = (
+				6BDBE9E01C737F9B00619E4D /* DAO.h */,
+				6BDBE9E11C737F9B00619E4D /* DAO.m */,
 				483796CB1BCBF7A00062D5AB /* AppDelegate */,
 				6BDBE91B1C6E83FA00619E4D /* Product */,
 				6BDBE91A1C6E83E600619E4D /* Company */,
@@ -401,6 +406,7 @@
 				48A656E618163C1B00746D36 /* CompanyViewController.m in Sources */,
 				6BDBE9191C6E83C500619E4D /* Company.m in Sources */,
 				48A656C518163BF200746D36 /* NavControllerAppDelegate.m in Sources */,
+				6BDBE9E21C737F9B00619E4D /* DAO.m in Sources */,
 				48A656C118163BF200746D36 /* main.m in Sources */,
 				48A656EB18163F8700746D36 /* ProductViewController.m in Sources */,
 				6BE744571C6D4C330026B08C /* MyWebViewViewController.m in Sources */,
