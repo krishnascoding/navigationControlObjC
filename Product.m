@@ -19,6 +19,10 @@
         _productURL = productURL;
         _productImage = productImage;
         
+        [_productImage retain];
+        [_productName retain];
+        [productURL retain];
+        
         return self;
     }
     

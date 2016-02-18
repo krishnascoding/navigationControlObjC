@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "CompanyViewController.h"
 #import "Company.h"
+#import "AddProductViewController.h"
 
-@interface ProductViewController : UITableViewController
+@interface ProductViewController : UITableViewController <UIGestureRecognizerDelegate>
 @property (nonatomic, retain) NSMutableArray *products;
 
 
@@ -18,5 +19,7 @@
 @property (nonatomic, retain) Product *currentProduct;
 
 @property (nonatomic, retain) NSMutableArray *companyList;
+
+@property (nonatomic, strong) AddProductViewController *addProductVC;
 
 @end

@@ -38,7 +38,6 @@
     
 //    NSMutableArray *companyList = [[NSMutableArray alloc] initWithObjects:apple, samsung, microsoft, dell, nil];
     
-//    self.companies = companyList;
     self.companies = [[NSMutableArray alloc] init];
     [self.companies addObject:apple];
     [self.companies addObject:samsung];
@@ -46,8 +45,6 @@
     [self.companies addObject:dell];
 
 
-    
-    
     // Create and add Products to Company instances
     // Apple products
     Product *iPad = [[Product alloc] initWithName:@"iPad" url:@"http://www.apple.com/ipad/" andImage:@"ipad.jpg"];
@@ -103,8 +100,21 @@
     [[self.companies objectAtIndex:indexPath] setName: newName];
     
 }
+-(void)createNewProduct:(NSString *)name andImage:(NSString *)image andURL:(NSString *)url forCurrentCompany:(Company *)currentCompany
+{
+    Product *newProduct = [[Product alloc] initWithName:name url:url andImage:image];
+    
+    [currentCompany.products addObject:newProduct];
 
+}
 
+-(void)editProduct:(NSString *)name andImage:(NSString *)image andURL:(NSString *)url forCurrentCompany:(Company *)currentCompany atIndexPath:(NSInteger)indexPath
+{
+    [[currentCompany.products objectAtIndex:indexPath] setProductName:name];
+    [[currentCompany.products objectAtIndex:indexPath] setProductImage:image];
+    [[currentCompany.products objectAtIndex:indexPath] setProductURL:url];
+    
+}
 
 
 @end

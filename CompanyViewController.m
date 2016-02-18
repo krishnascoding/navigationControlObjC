@@ -62,8 +62,6 @@
     self.addEditVC.title = @"Add Company";
     
     [self.navigationController pushViewController:self.addEditVC animated:YES];
-
-    
 }
 
 #pragma mark - Table view data source
@@ -92,9 +90,6 @@
     
     // Configure the cell...
     
-//    cell.textLabel.text = [self.companyList objectAtIndex:[indexPath row]];
-//    [[cell imageView] setImage:[UIImage imageNamed:self.companyLogos[indexPath.row]]];
-    
     Company *company = [self.dao.companies objectAtIndex: indexPath.row];
     
        
@@ -121,7 +116,6 @@
 }
 
 
-
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -135,20 +129,16 @@
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        
-        
     }
     
     [tableView reloadData];
 }
 
 
-
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
    
-    
     //Move items around in companyList array
     id company = [[[self.companyList objectAtIndex:fromIndexPath.row] retain] autorelease];
     [self.companyList removeObjectAtIndex:fromIndexPath.row];
@@ -161,14 +151,12 @@
 }
 
 
-
 // Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the item to be re-orderable.
     return YES;
 }
-
 
 
 #pragma mark - Table view delegate
@@ -193,7 +181,6 @@
     [self.navigationController
         pushViewController:self.productViewController
         animated:YES];
-
 }
 
 

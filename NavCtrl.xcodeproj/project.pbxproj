@@ -23,6 +23,8 @@
 		48A656E718163C1B00746D36 /* CompanyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48A656E518163C1B00746D36 /* CompanyViewController.xib */; };
 		48A656EB18163F8700746D36 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A656E918163F8700746D36 /* ProductViewController.m */; };
 		48A656EE1816468000746D36 /* Sunflower.gif in Resources */ = {isa = PBXBuildFile; fileRef = 48A656ED1816468000746D36 /* Sunflower.gif */; };
+		6BD13C931C764493009975E5 /* AddProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD13C921C764493009975E5 /* AddProductViewController.m */; };
+		6BD13C961C7644DC009975E5 /* AddProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BD13C951C7644DC009975E5 /* AddProductViewController.xib */; };
 		6BDBE9191C6E83C500619E4D /* Company.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDBE9181C6E83C500619E4D /* Company.m */; };
 		6BDBE91E1C6E841000619E4D /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDBE91D1C6E841000619E4D /* Product.m */; };
 		6BDBE9E21C737F9B00619E4D /* DAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDBE9E11C737F9B00619E4D /* DAO.m */; };
@@ -81,6 +83,9 @@
 		48A656E818163F8700746D36 /* ProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProductViewController.h; path = ../ProductViewController.h; sourceTree = "<group>"; };
 		48A656E918163F8700746D36 /* ProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProductViewController.m; path = ../ProductViewController.m; sourceTree = "<group>"; };
 		48A656ED1816468000746D36 /* Sunflower.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Sunflower.gif; sourceTree = "<group>"; };
+		6BD13C911C764493009975E5 /* AddProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddProductViewController.h; sourceTree = "<group>"; };
+		6BD13C921C764493009975E5 /* AddProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddProductViewController.m; sourceTree = "<group>"; };
+		6BD13C951C7644DC009975E5 /* AddProductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProductViewController.xib; sourceTree = "<group>"; };
 		6BDBE9171C6E83C500619E4D /* Company.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Company.h; sourceTree = "<group>"; };
 		6BDBE9181C6E83C500619E4D /* Company.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Company.m; sourceTree = "<group>"; };
 		6BDBE91C1C6E841000619E4D /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Product.h; path = ../Product.h; sourceTree = "<group>"; };
@@ -166,7 +171,7 @@
 		48A656A818163BF200746D36 = {
 			isa = PBXGroup;
 			children = (
-				6BDBE9E71C74E51400619E4D /* New Group */,
+				6BDBE9E71C74E51400619E4D /* AddEditCompanyVC */,
 				6BDBE9E41C74E50C00619E4D /* AddEditViewController.h */,
 				6BDBE9E51C74E50C00619E4D /* AddEditViewController.m */,
 				6BDBE9E81C74E5A700619E4D /* AddEditViewController.xib */,
@@ -207,6 +212,7 @@
 				6BDBE91A1C6E83E600619E4D /* Company */,
 				483796CC1BCBF7C70062D5AB /* ParentViewController */,
 				483796CD1BCBF7EB0062D5AB /* ProductViewController */,
+				6BD13C941C76449B009975E5 /* AddProductVC */,
 				6BE744541C6D4A020026B08C /* MyWebView */,
 				48A656C618163BF200746D36 /* Images.xcassets */,
 				48A656E518163C1B00746D36 /* CompanyViewController.xib */,
@@ -250,6 +256,16 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		6BD13C941C76449B009975E5 /* AddProductVC */ = {
+			isa = PBXGroup;
+			children = (
+				6BD13C911C764493009975E5 /* AddProductViewController.h */,
+				6BD13C921C764493009975E5 /* AddProductViewController.m */,
+				6BD13C951C7644DC009975E5 /* AddProductViewController.xib */,
+			);
+			name = AddProductVC;
+			sourceTree = "<group>";
+		};
 		6BDBE91A1C6E83E600619E4D /* Company */ = {
 			isa = PBXGroup;
 			children = (
@@ -277,11 +293,11 @@
 			name = DAO;
 			sourceTree = "<group>";
 		};
-		6BDBE9E71C74E51400619E4D /* New Group */ = {
+		6BDBE9E71C74E51400619E4D /* AddEditCompanyVC */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = "New Group";
+			name = AddEditCompanyVC;
 			sourceTree = "<group>";
 		};
 		6BE744541C6D4A020026B08C /* MyWebView */ = {
@@ -401,6 +417,7 @@
 				6BE744671C6E3A650026B08C /* galaxys4.jpg in Resources */,
 				48A656EE1816468000746D36 /* Sunflower.gif in Resources */,
 				6BE7446F1C6E3A650026B08C /* venuepro.jpg in Resources */,
+				6BD13C961C7644DC009975E5 /* AddProductViewController.xib in Resources */,
 				6BDBE9E91C74E5A700619E4D /* AddEditViewController.xib in Resources */,
 				48A656E718163C1B00746D36 /* CompanyViewController.xib in Resources */,
 				6BE7446C1C6E3A650026B08C /* ipodtouch.jpg in Resources */,
@@ -427,6 +444,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BD13C931C764493009975E5 /* AddProductViewController.m in Sources */,
 				6BDBE91E1C6E841000619E4D /* Product.m in Sources */,
 				48A656E618163C1B00746D36 /* CompanyViewController.m in Sources */,
 				6BDBE9E61C74E50C00619E4D /* AddEditViewController.m in Sources */,

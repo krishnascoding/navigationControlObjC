@@ -13,6 +13,8 @@
 //@property (nonatomic, retain) MyWebViewViewController *myWebView;
 
 @property (nonatomic, retain) CompanyViewController *companyVC;
+@property (nonatomic, retain) DAO *dao;
+
 
 @end
 
@@ -35,9 +37,13 @@
      self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+//    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addItem:)];
+    self.navigationItem.rightBarButtonItem = addButton;
     
-
+    self.dao = [DAO sharedDAO];
+//    self.products = self.currentCompany.products;
+    
 
 }
 
@@ -55,6 +61,17 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)addItem:(id)sender
+{
+    
+    self.addProductVC = [[AddProductViewController alloc] initWithNibName:@"AddProductViewController" bundle:nil];
+    self.addProductVC.title = @"Add Product";
+    self.addProductVC.currentCompany = self.currentCompany;
+    
+    [self.navigationController pushViewController:self.addProductVC animated:YES];
+    
 }
 
 #pragma mark - Table view data source
@@ -81,21 +98,52 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     // Configure the cell...
+    
+    
     cell.textLabel.text = [[self.products objectAtIndex:[indexPath row]] productName];
     cell.imageView.image = [UIImage imageNamed:[[self.products objectAtIndex:indexPath.row] productImage]];
 //    [[cell imageView] setImage:[UIImage imageNamed:[[self.productImages objectForKey:self.currentCompany] objectAtIndex:indexPath.row]]];
     
     
+    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
+                                          initWithTarget:self action:@selector(handleLongPress:)];
+    lpgr.minimumPressDuration = 2.0; //seconds
+    lpgr.delegate = self;
+    [self.tableView addGestureRecognizer:lpgr];
+    [lpgr release];
+    
     
     return cell;
 }
 
+-(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    CGPoint p = [gestureRecognizer locationInView:self.tableView];
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p];
+    if (indexPath == nil) {
+        NSLog(@"long press on table view but not on a row");
+    } else if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        self.addProductVC = [[AddProductViewController alloc] initWithNibName:@"AddProductViewController" bundle:nil];
+        self.addProductVC.title = @"Edit Product";
+        self.addProductVC.indexPathRow = indexPath.row;
+        self.addProductVC.currentCompany = self.currentCompany;
+        
+        [self.navigationController pushViewController:self.addProductVC animated:YES];
+        
+        NSLog(@"long press on table view at row %ld", indexPath.row);
+    } else {
+        NSLog(@"gestureRecognizer.state = %ld", gestureRecognizer.state);
+    }
+}
 
 
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
+    
+    tableView.allowsSelectionDuringEditing = YES;
     return YES;
 }
 
@@ -108,11 +156,6 @@
         
         [self.currentCompany.products removeObjectAtIndex:indexPath.row];
         
-        
-//        [[self.companyProducts objectForKey:self.currentCompany] removeObjectAtIndex:indexPath.row];
-//        [[self.productImages objectForKey:self.currentCompany] removeObjectAtIndex:indexPath.row];
-//        [[self.productURLs objectForKey:self.currentCompany] removeObjectAtIndex:indexPath.row];
-
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
@@ -123,8 +166,6 @@
     [tableView reloadData];
 }
 
-
-
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
@@ -133,22 +174,7 @@
     [self.currentCompany.products removeObjectAtIndex:fromIndexPath.row];
     [self.currentCompany.products insertObject:product atIndex:toIndexPath.row];
     
-    
-//    id products = [[[[self.companyProducts objectForKey:self.currentCompany] objectAtIndex:fromIndexPath.row] retain] autorelease];
-//    [[self.companyProducts objectForKey:self.currentCompany] removeObjectAtIndex:fromIndexPath.row];
-//    [[self.companyProducts objectForKey:self.currentCompany] insertObject:products atIndex:toIndexPath.row];
-//    // Move items from companyImages
-//    id images = [[[[self.productImages objectForKey:self.currentCompany] objectAtIndex:fromIndexPath.row] retain] autorelease];
-//    [[self.productImages objectForKey:self.currentCompany] removeObjectAtIndex:fromIndexPath.row];
-//    [[self.productImages objectForKey:self.currentCompany] insertObject:images atIndex:toIndexPath.row];
-//    // Move items from productURLs
-//    id urls = [[[[self.productURLs objectForKey:self.currentCompany] objectAtIndex:fromIndexPath.row] retain] autorelease];
-//    [[self.productURLs objectForKey:self.currentCompany] removeObjectAtIndex:fromIndexPath.row];
-//    [[self.productURLs objectForKey:self.currentCompany] insertObject:urls atIndex:toIndexPath.row];
-    
 }
-
-
 
 // Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
@@ -169,9 +195,6 @@
     MyWebViewViewController *myWebView = [[MyWebViewViewController alloc] init];
     myWebView.urlString = [[self.products objectAtIndex:indexPath.row] productURL];
     myWebView.title = [[self.products objectAtIndex:indexPath.row]productName];
-    
-//    myWebView.urlString = [[self.productURLs valueForKey:self.currentCompany] objectAtIndex:indexPath.row];
-//    myWebView.title = [[self.companyProducts valueForKey:self.currentCompany] objectAtIndex:indexPath.row];
     
     [self.navigationController pushViewController:myWebView animated:YES];
 }

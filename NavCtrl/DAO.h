@@ -18,6 +18,9 @@
 +(DAO *)sharedDAO;
 -(void)createNewCompany:(NSString *)name andLogo:(NSString *)logo;
 -(void)editCompany:(NSString *)newName logo:(NSString *)logo andIndexPath:(NSInteger)indexPath;
+-(void)createNewProduct:(NSString *)name andImage:(NSString *)image andURL:(NSString *)url forCurrentCompany:(Company*)currentCompany;
+-(void)editProduct:(NSString *)name andImage:(NSString *)image andURL:(NSString *)url forCurrentCompany:(Company*)currentCompany atIndexPath:(NSInteger)indexPath;
+
 
 
 @end

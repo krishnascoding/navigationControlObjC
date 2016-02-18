@@ -19,7 +19,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    DAO *dao = [DAO sharedDAO];
 
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveItems)];
     
@@ -29,8 +28,7 @@
         self.companyName.text = [[[[DAO sharedDAO] companies] objectAtIndex:self.indexPathRow] name];
         self.companyLogoURL.text = [[[[DAO sharedDAO] companies] objectAtIndex:self.indexPathRow] logo];
     }
-
-
+    
 }
 
 - (void)didReceiveMemoryWarning {
