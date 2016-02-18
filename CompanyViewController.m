@@ -10,7 +10,7 @@
 #import "ProductViewController.h"
 
 @interface CompanyViewController ()
-
+@property (nonatomic, retain) DAO *dao;
 @end
 
 @implementation CompanyViewController
@@ -34,23 +34,36 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addItem:)];
+    self.navigationItem.leftBarButtonItem = addButton;
+    
     self.title = @"Mobile device makers";
     
-    DAO *dao1 = [DAO sharedDAO];
-    [dao1 createCompanies];
-    self.companyList = dao1.companies;
-    
-    
-//    DAO *dao2 = [DAO sharedDAO];
-//    dao2.companies;
+    self.dao = [DAO sharedDAO];
+    NSLog(@"first->%@",self.dao.companies);
+    [self.dao createCompanies];
+//       NSLog(@"second->%@",dao1.companies);
+    self.companyList = self.dao.companies;
     
 
 }
+
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)addItem:(id)sender
+{
+ 
+    self.addEditVC = [[AddEditViewController alloc] initWithNibName:@"AddEditViewController" bundle:nil];
+    self.addEditVC.title = @"Add Company";
+    
+    [self.navigationController pushViewController:self.addEditVC animated:YES];
+
+    
 }
 
 #pragma mark - Table view data source
@@ -82,17 +95,28 @@
 //    cell.textLabel.text = [self.companyList objectAtIndex:[indexPath row]];
 //    [[cell imageView] setImage:[UIImage imageNamed:self.companyLogos[indexPath.row]]];
     
-    cell.textLabel.text = [[self.companyList objectAtIndex:[indexPath row]] name];
-    cell.imageView.image = [UIImage imageNamed:[[self.companyList objectAtIndex:indexPath.row] logo]];
+    Company *company = [self.dao.companies objectAtIndex: indexPath.row];
+    
+       
+    cell.textLabel.text =  company.name;
+    cell.imageView.image = [UIImage imageNamed: company.logo];
     
     return cell;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
+    
+}
 
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
+    tableView.allowsSelectionDuringEditing = YES;
+    
     return YES;
 }
 
@@ -111,6 +135,8 @@
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        
+        
     }
     
     [tableView reloadData];
@@ -150,15 +176,17 @@
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
-
-//    if (indexPath.row == 0){
-//        self.productViewController.title = @"Apple mobile devices";
-//    } else {
-//        self.productViewController.title = @"Samsung mobile devices";
-//    }
     
-    self.productViewController.title = [self.companyList[indexPath.row] name];
+    if (tableView.editing == YES) {
+        self.addEditVC = [[AddEditViewController alloc] initWithNibName:@"AddEditViewController" bundle:nil];
+        self.addEditVC.title = @"Edit Company";
+        self.addEditVC.indexPathRow = indexPath.row;
+        
+        [self.navigationController pushViewController:self.addEditVC animated:YES];
+        return;
+    }
+    
+    self.productViewController.title = [self.dao.companies[indexPath.row] name];
     self.productViewController.currentCompany = self.companyList[indexPath.row];
     self.productViewController.companyList = self.companyList;
     

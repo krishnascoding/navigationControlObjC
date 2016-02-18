@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddEditViewController">
+            <connections>
+                <outlet property="companyLogoURL" destination="kIg-V3-T0p" id="7uk-WF-Uhc"/>
+                <outlet property="companyName" destination="RBC-j8-o1J" id="awH-Rk-wV8"/>
+                <outlet property="view" destination="3zS-Jc-Pd4" id="Mzf-Cu-PHG"/>
+            </connections>
+        </placeholder>
+        <view contentMode="scaleToFill" id="3zS-Jc-Pd4">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Company Logo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ch-Fy-opY">
+                    <rect key="frame" x="8" y="227" width="136" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="25" id="LPk-wl-nsa"/>
+                        <constraint firstAttribute="width" constant="136" id="QJh-nD-lWq"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Company Logo URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kIg-V3-T0p">
+                    <rect key="frame" x="8" y="260" width="584" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="WxU-4V-sOR"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="Rps-zZ-7zC"/>
+                    </connections>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Company Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yAz-4M-QRw">
+                    <rect key="frame" x="8" y="144" width="254" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="254" id="OSb-Cz-E4V"/>
+                        <constraint firstAttribute="height" constant="25" id="xbE-yh-opb"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ana-Ta-x0S">
+                    <rect key="frame" x="0.0" y="50" width="0.0" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="width" id="Mjf-Mw-CIE"/>
+                    </constraints>
+                    <items>
+                        <navigationItem title="Title" id="ZWp-mB-Xe8"/>
+                    </items>
+                </navigationBar>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Company" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RBC-j8-o1J">
+                    <rect key="frame" x="8" y="177" width="584" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="TA9-3F-MSH"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="KXe-tp-R0H"/>
+                    </connections>
+                </textField>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="RBC-j8-o1J" firstAttribute="leading" secondItem="3zS-Jc-Pd4" secondAttribute="leading" constant="8" id="0rU-Ed-Zpa"/>
+                <constraint firstItem="yAz-4M-QRw" firstAttribute="leading" secondItem="3zS-Jc-Pd4" secondAttribute="leading" constant="8" id="1l6-UF-7BP"/>
+                <constraint firstItem="1Ch-Fy-opY" firstAttribute="top" secondItem="RBC-j8-o1J" secondAttribute="bottom" constant="10" id="2Cx-gB-qTg"/>
+                <constraint firstItem="ana-Ta-x0S" firstAttribute="top" secondItem="3zS-Jc-Pd4" secondAttribute="top" constant="50" id="6cE-1z-uXS"/>
+                <constraint firstItem="RBC-j8-o1J" firstAttribute="leading" secondItem="1Ch-Fy-opY" secondAttribute="leading" id="9DL-9k-vhK"/>
+                <constraint firstItem="kIg-V3-T0p" firstAttribute="leading" secondItem="1Ch-Fy-opY" secondAttribute="leading" id="Fno-Xx-llw"/>
+                <constraint firstAttribute="trailing" secondItem="kIg-V3-T0p" secondAttribute="trailing" constant="8" id="UNY-zD-7Ae"/>
+                <constraint firstItem="1Ch-Fy-opY" firstAttribute="leading" secondItem="3zS-Jc-Pd4" secondAttribute="leadingMargin" id="Uom-Xp-TBj"/>
+                <constraint firstItem="kIg-V3-T0p" firstAttribute="top" secondItem="1Ch-Fy-opY" secondAttribute="bottom" constant="8" id="a35-cV-0ZF"/>
+                <constraint firstItem="yAz-4M-QRw" firstAttribute="leading" secondItem="RBC-j8-o1J" secondAttribute="leading" id="eMn-xi-gO0"/>
+                <constraint firstItem="yAz-4M-QRw" firstAttribute="top" secondItem="ana-Ta-x0S" secondAttribute="bottom" constant="50" id="gXY-el-Smv"/>
+                <constraint firstItem="RBC-j8-o1J" firstAttribute="top" secondItem="yAz-4M-QRw" secondAttribute="bottom" constant="8" id="l0r-k4-6iC"/>
+                <constraint firstItem="ana-Ta-x0S" firstAttribute="leading" secondItem="3zS-Jc-Pd4" secondAttribute="leading" id="mYH-7y-Jvj"/>
+                <constraint firstItem="yAz-4M-QRw" firstAttribute="leading" secondItem="RBC-j8-o1J" secondAttribute="leading" id="pWO-SP-ZEO"/>
+                <constraint firstItem="RBC-j8-o1J" firstAttribute="trailing" secondItem="kIg-V3-T0p" secondAttribute="trailing" id="spK-5L-aKA"/>
+                <constraint firstAttribute="trailing" secondItem="RBC-j8-o1J" secondAttribute="trailing" constant="8" id="wcx-f9-xcL"/>
+                <constraint firstItem="kIg-V3-T0p" firstAttribute="leading" secondItem="3zS-Jc-Pd4" secondAttribute="leading" constant="8" id="wwR-s7-Qir"/>
+            </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="eMn-xi-gO0"/>
+                    <exclude reference="pWO-SP-ZEO"/>
+                    <exclude reference="9DL-9k-vhK"/>
+                    <exclude reference="spK-5L-aKA"/>
+                    <exclude reference="Fno-Xx-llw"/>
+                </mask>
+            </variation>
+        </view>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+    </objects>
+</document>

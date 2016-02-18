@@ -24,6 +24,10 @@
 
 -(NSMutableArray *)createCompanies
 {
+    
+    if (self.companies == nil) {
+ 
+
     Company *apple = [[Company alloc] initWithName:@"Apple mobile devices" logo:@"appleimage.jpg"];
     
     Company *samsung = [[Company alloc] initWithName:@"Samsung mobile devices" logo:@"samsunglogo.jpg"];
@@ -32,9 +36,17 @@
     
     Company *dell = [[Company alloc] initWithName:@"Dell" logo:@"delllogo.jpg"];
     
-    NSMutableArray *companyList = [[NSMutableArray alloc] initWithObjects:apple, samsung, microsoft, dell, nil];
+//    NSMutableArray *companyList = [[NSMutableArray alloc] initWithObjects:apple, samsung, microsoft, dell, nil];
     
-    self.companies = companyList;
+//    self.companies = companyList;
+    self.companies = [[NSMutableArray alloc] init];
+    [self.companies addObject:apple];
+    [self.companies addObject:samsung];
+    [self.companies addObject:microsoft];
+    [self.companies addObject:dell];
+
+
+    
     
     // Create and add Products to Company instances
     // Apple products
@@ -68,10 +80,31 @@
     Product *venuePro = [[Product alloc] initWithName:@"Venue Pro" url:@"http://www.dell.com/us/business/p/dell-venue-8-pro-5855-tablet/pd?oc=bto10005t58558usca&model_id=dell-venue-8-pro-5855-tablet&l=en&s=bsd" andImage:@"venuepro.jpg"];
     
     dell.products = [[NSMutableArray alloc] initWithObjects:inspiron, chromeBook, venuePro, nil];
+
     
-    return companyList;
+    return self.companies;
+    }
+    return self.companies;
+}
+
+-(void)createNewCompany:(NSString *)name andLogo:(NSString *)logo
+{
+    
+    Company *newCompany = [[Company alloc] initWithName:name logo:logo];
+
+    [self.companies addObject:newCompany];
     
 }
+
+-(void)editCompany:(NSString *)newName logo:(NSString *)logo andIndexPath:(NSInteger)indexPath
+{
+   
+    [[self.companies objectAtIndex:indexPath] setLogo:logo];
+    [[self.companies objectAtIndex:indexPath] setName: newName];
+    
+}
+
+
 
 
 @end

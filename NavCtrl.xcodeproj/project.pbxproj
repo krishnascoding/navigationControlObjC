@@ -26,6 +26,8 @@
 		6BDBE9191C6E83C500619E4D /* Company.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDBE9181C6E83C500619E4D /* Company.m */; };
 		6BDBE91E1C6E841000619E4D /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDBE91D1C6E841000619E4D /* Product.m */; };
 		6BDBE9E21C737F9B00619E4D /* DAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDBE9E11C737F9B00619E4D /* DAO.m */; };
+		6BDBE9E61C74E50C00619E4D /* AddEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDBE9E51C74E50C00619E4D /* AddEditViewController.m */; };
+		6BDBE9E91C74E5A700619E4D /* AddEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BDBE9E81C74E5A700619E4D /* AddEditViewController.xib */; };
 		6BE7444A1C6D372D0026B08C /* delllogo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BE744491C6D372D0026B08C /* delllogo.jpg */; };
 		6BE7444C1C6D37380026B08C /* microsoftlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BE7444B1C6D37380026B08C /* microsoftlogo.png */; };
 		6BE7444E1C6D373F0026B08C /* samsunglogo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BE7444D1C6D373F0026B08C /* samsunglogo.jpg */; };
@@ -85,6 +87,9 @@
 		6BDBE91D1C6E841000619E4D /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Product.m; path = ../Product.m; sourceTree = "<group>"; };
 		6BDBE9E01C737F9B00619E4D /* DAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAO.h; sourceTree = "<group>"; };
 		6BDBE9E11C737F9B00619E4D /* DAO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAO.m; sourceTree = "<group>"; };
+		6BDBE9E41C74E50C00619E4D /* AddEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddEditViewController.h; sourceTree = "<group>"; };
+		6BDBE9E51C74E50C00619E4D /* AddEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddEditViewController.m; sourceTree = "<group>"; };
+		6BDBE9E81C74E5A700619E4D /* AddEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddEditViewController.xib; sourceTree = "<group>"; };
 		6BE744491C6D372D0026B08C /* delllogo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = delllogo.jpg; sourceTree = "<group>"; };
 		6BE7444B1C6D37380026B08C /* microsoftlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = microsoftlogo.png; sourceTree = "<group>"; };
 		6BE7444D1C6D373F0026B08C /* samsunglogo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = samsunglogo.jpg; sourceTree = "<group>"; };
@@ -161,6 +166,10 @@
 		48A656A818163BF200746D36 = {
 			isa = PBXGroup;
 			children = (
+				6BDBE9E71C74E51400619E4D /* New Group */,
+				6BDBE9E41C74E50C00619E4D /* AddEditViewController.h */,
+				6BDBE9E51C74E50C00619E4D /* AddEditViewController.m */,
+				6BDBE9E81C74E5A700619E4D /* AddEditViewController.xib */,
 				48A656BA18163BF200746D36 /* NavCtrl */,
 				48A656D318163BF200746D36 /* NavCtrlTests */,
 				48A656B318163BF200746D36 /* Frameworks */,
@@ -192,8 +201,7 @@
 		48A656BA18163BF200746D36 /* NavCtrl */ = {
 			isa = PBXGroup;
 			children = (
-				6BDBE9E01C737F9B00619E4D /* DAO.h */,
-				6BDBE9E11C737F9B00619E4D /* DAO.m */,
+				6BDBE9E31C74D5C800619E4D /* DAO */,
 				483796CB1BCBF7A00062D5AB /* AppDelegate */,
 				6BDBE91B1C6E83FA00619E4D /* Product */,
 				6BDBE91A1C6E83E600619E4D /* Company */,
@@ -258,6 +266,22 @@
 				6BDBE91D1C6E841000619E4D /* Product.m */,
 			);
 			name = Product;
+			sourceTree = "<group>";
+		};
+		6BDBE9E31C74D5C800619E4D /* DAO */ = {
+			isa = PBXGroup;
+			children = (
+				6BDBE9E01C737F9B00619E4D /* DAO.h */,
+				6BDBE9E11C737F9B00619E4D /* DAO.m */,
+			);
+			name = DAO;
+			sourceTree = "<group>";
+		};
+		6BDBE9E71C74E51400619E4D /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
 			sourceTree = "<group>";
 		};
 		6BE744541C6D4A020026B08C /* MyWebView */ = {
@@ -377,6 +401,7 @@
 				6BE744671C6E3A650026B08C /* galaxys4.jpg in Resources */,
 				48A656EE1816468000746D36 /* Sunflower.gif in Resources */,
 				6BE7446F1C6E3A650026B08C /* venuepro.jpg in Resources */,
+				6BDBE9E91C74E5A700619E4D /* AddEditViewController.xib in Resources */,
 				48A656E718163C1B00746D36 /* CompanyViewController.xib in Resources */,
 				6BE7446C1C6E3A650026B08C /* ipodtouch.jpg in Resources */,
 				48A656BF18163BF200746D36 /* InfoPlist.strings in Resources */,
@@ -404,6 +429,7 @@
 			files = (
 				6BDBE91E1C6E841000619E4D /* Product.m in Sources */,
 				48A656E618163C1B00746D36 /* CompanyViewController.m in Sources */,
+				6BDBE9E61C74E50C00619E4D /* AddEditViewController.m in Sources */,
 				6BDBE9191C6E83C500619E4D /* Company.m in Sources */,
 				48A656C518163BF200746D36 /* NavControllerAppDelegate.m in Sources */,
 				6BDBE9E21C737F9B00619E4D /* DAO.m in Sources */,
@@ -458,7 +484,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -498,7 +524,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;

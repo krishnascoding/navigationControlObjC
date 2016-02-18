@@ -18,6 +18,8 @@
         
         _name = name;
         _logo = logo;
+        [_name retain];
+        [_logo retain];
         
         return self;
     }

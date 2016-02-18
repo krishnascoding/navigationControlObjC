@@ -11,7 +11,7 @@
 
 @interface Company : NSObject
 
-@property (nonatomic, retain) NSString *name;
+@property (nonatomic, strong) NSString *name;
 @property (nonatomic, retain) NSString *logo;
 @property (nonatomic, retain) NSMutableArray *products;
 

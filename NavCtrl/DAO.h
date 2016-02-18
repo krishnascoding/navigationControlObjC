@@ -12,9 +12,12 @@
 
 @interface DAO : NSObject
 
-@property(nonatomic) NSMutableArray *companies;
+@property(nonatomic, retain) NSMutableArray *companies;
 
 -(NSMutableArray *)createCompanies;
 +(DAO *)sharedDAO;
+-(void)createNewCompany:(NSString *)name andLogo:(NSString *)logo;
+-(void)editCompany:(NSString *)newName logo:(NSString *)logo andIndexPath:(NSInteger)indexPath;
+
 
 @end
