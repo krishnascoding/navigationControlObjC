@@ -40,15 +40,10 @@
     self.title = @"Mobile device makers";
     
     self.dao = [DAO sharedDAO];
-    NSLog(@"first->%@",self.dao.companies);
     [self.dao createCompanies];
-//       NSLog(@"second->%@",dao1.companies);
     self.companyList = self.dao.companies;
-//    
-//    [self updateStockPrice];
-//    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(updateStockPrice) userInfo:nil repeats:YES];
-//    
-    
+
+
 
 }
 
@@ -115,18 +110,43 @@
     NSLog(@"stock updated");
     
     
-    
     [self.tableView reloadData];
     
 }
+//SSNLF
 
 -(void)updateStockPrice
 {
-    NSString *stockURL = @"http://finance.yahoo.com/d/quotes.csv?s=AAPL+SSNLF+MSFT+GOOG&f=l1";
+//    NSString *stockURL = @"http://finance.yahoo.com/d/quotes.csv?s=AAPL+jh+MSFT+GOOG&f=l1";
+    
+    NSMutableString *baseURL = [[NSMutableString alloc ] initWithString: @"http://finance.yahoo.com/d/quotes.csv?s="];
+    
+    for (int i = 0; i < [self.dao.companies count]; i++) {
+//        baseURL = (NSMutableString*)[baseURL stringByAppendingString:[[self.dao.companies objectAtIndex:i]stockSym]];
+        
+        NSString *stock = [[self.dao.companies objectAtIndex:i]stockSym];
+        
+        if (![[self.dao.companies objectAtIndex:i]stockSym]) {
+            baseURL = (NSMutableString*)[NSString stringWithFormat:@"%@%@+", baseURL,@"xyda"];
+
+            
+        } else {
+        
+        baseURL = (NSMutableString*)[NSString stringWithFormat:@"%@%@+", baseURL,stock];
+        }
+        
+    }
+    baseURL = (NSMutableString *)[NSString stringWithFormat:@"%@&f=l1", baseURL];
+    
+//    NSLog(@"base url %@", baseURL);
+//    
+//    NSLog(@"stock sym %@", [[self.dao.companies objectAtIndex:0]stockSym]);
+//    
+    
 
     NSURLSession *session = [NSURLSession sharedSession];
     
-    [[session dataTaskWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:stockURL]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    [[session dataTaskWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:baseURL]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSString *stockString = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
         NSArray *rows = [stockString componentsSeparatedByString:@"\n"];
         self.stockPrices = [[NSMutableArray alloc] init];
@@ -153,8 +173,6 @@
         [self.tableView performSelectorOnMainThread:@selector(reloadData)
                                          withObject:nil
                                       waitUntilDone:NO];
-        
-    
         
         
     }] resume];
