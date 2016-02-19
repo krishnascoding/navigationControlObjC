@@ -22,5 +22,8 @@
 
 @property (nonatomic, retain) AddEditViewController *addEditVC;
 
+@property (nonatomic, strong) NSMutableArray *stockPrices;
+
+
 
 @end

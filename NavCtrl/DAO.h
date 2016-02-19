@@ -17,7 +17,7 @@
 -(NSMutableArray *)createCompanies;
 +(DAO *)sharedDAO;
 -(void)createNewCompany:(NSString *)name andLogo:(NSString *)logo;
--(void)editCompany:(NSString *)newName logo:(NSString *)logo andIndexPath:(NSInteger)indexPath;
+-(void)editCompany:(NSString *)newName logo:(NSString *)logo andIndexPath:(NSInteger)indexPath andStockSymbol:(NSString *)stockSymbol;
 -(void)createNewProduct:(NSString *)name andImage:(NSString *)image andURL:(NSString *)url forCurrentCompany:(Company*)currentCompany;
 -(void)editProduct:(NSString *)name andImage:(NSString *)image andURL:(NSString *)url forCurrentCompany:(Company*)currentCompany atIndexPath:(NSInteger)indexPath;
 

@@ -42,8 +42,6 @@
     self.navigationItem.rightBarButtonItem = addButton;
     
     self.dao = [DAO sharedDAO];
-//    self.products = self.currentCompany.products;
-    
 
 }
 
@@ -52,7 +50,6 @@
     [super viewWillAppear:animated];
     
     self.products = self.currentCompany.products;
-    
 
     [self.tableView reloadData];
 }

@@ -29,12 +29,21 @@
  
 
     Company *apple = [[Company alloc] initWithName:@"Apple mobile devices" logo:@"appleimage.jpg"];
+        [apple setStockSym:@"AAPL"];
+    
     
     Company *samsung = [[Company alloc] initWithName:@"Samsung mobile devices" logo:@"samsunglogo.jpg"];
+        [samsung setStockSym:@"SSNLF"];
+
     
     Company *microsoft = [[Company alloc] initWithName:@"Microsoft" logo:@"microsoftlogo.png"];
+        [microsoft setStockSym:@"MSFT"];
+
     
     Company *dell = [[Company alloc] initWithName:@"Dell" logo:@"delllogo.jpg"];
+        
+        [dell setStockSym:@"GOOG"];
+
     
 //    NSMutableArray *companyList = [[NSMutableArray alloc] initWithObjects:apple, samsung, microsoft, dell, nil];
     
@@ -93,11 +102,13 @@
     
 }
 
--(void)editCompany:(NSString *)newName logo:(NSString *)logo andIndexPath:(NSInteger)indexPath
+-(void)editCompany:(NSString *)newName logo:(NSString *)logo andIndexPath:(NSInteger)indexPath andStockSymbol:(NSString *)stockSymbol
 {
    
     [[self.companies objectAtIndex:indexPath] setLogo:logo];
     [[self.companies objectAtIndex:indexPath] setName: newName];
+    [[self.companies objectAtIndex:indexPath] setStockSym: stockSymbol];
+
     
 }
 -(void)createNewProduct:(NSString *)name andImage:(NSString *)image andURL:(NSString *)url forCurrentCompany:(Company *)currentCompany

@@ -14,6 +14,7 @@
 @property (retain, nonatomic) IBOutlet UITextField *companyLogoURL;
 @property (nonatomic) NSInteger indexPathRow;
 
+@property (retain, nonatomic) IBOutlet UITextField *stockSymbol;
 
 
 @end

@@ -10,6 +10,7 @@
             <connections>
                 <outlet property="companyLogoURL" destination="kIg-V3-T0p" id="7uk-WF-Uhc"/>
                 <outlet property="companyName" destination="RBC-j8-o1J" id="awH-Rk-wV8"/>
+                <outlet property="stockSymbol" destination="0hI-G3-FBR" id="RzB-2L-0UZ"/>
                 <outlet property="view" destination="3zS-Jc-Pd4" id="Mzf-Cu-PHG"/>
             </connections>
         </placeholder>
@@ -68,6 +69,24 @@
                         <outlet property="delegate" destination="-1" id="KXe-tp-R0H"/>
                     </connections>
                 </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0hI-G3-FBR">
+                    <rect key="frame" x="8" y="375" width="584" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="5c0-mz-DDt"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stock Symbol" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tcT-it-bsZ">
+                    <rect key="frame" x="8" y="333" width="149" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="149" id="pSm-cM-d4v"/>
+                        <constraint firstAttribute="height" constant="32" id="x3t-x9-G1o"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
@@ -76,7 +95,11 @@
                 <constraint firstItem="1Ch-Fy-opY" firstAttribute="top" secondItem="RBC-j8-o1J" secondAttribute="bottom" constant="10" id="2Cx-gB-qTg"/>
                 <constraint firstItem="ana-Ta-x0S" firstAttribute="top" secondItem="3zS-Jc-Pd4" secondAttribute="top" constant="50" id="6cE-1z-uXS"/>
                 <constraint firstItem="RBC-j8-o1J" firstAttribute="leading" secondItem="1Ch-Fy-opY" secondAttribute="leading" id="9DL-9k-vhK"/>
+                <constraint firstItem="0hI-G3-FBR" firstAttribute="leading" secondItem="3zS-Jc-Pd4" secondAttribute="leading" constant="8" id="AI7-ud-8iO"/>
+                <constraint firstItem="0hI-G3-FBR" firstAttribute="top" secondItem="tcT-it-bsZ" secondAttribute="bottom" constant="10" id="CJy-cV-Kt5"/>
                 <constraint firstItem="kIg-V3-T0p" firstAttribute="leading" secondItem="1Ch-Fy-opY" secondAttribute="leading" id="Fno-Xx-llw"/>
+                <constraint firstItem="tcT-it-bsZ" firstAttribute="leading" secondItem="3zS-Jc-Pd4" secondAttribute="leading" constant="8" id="Iz2-5x-moj"/>
+                <constraint firstAttribute="trailing" secondItem="0hI-G3-FBR" secondAttribute="trailing" constant="8" id="QVA-XT-PJQ"/>
                 <constraint firstAttribute="trailing" secondItem="kIg-V3-T0p" secondAttribute="trailing" constant="8" id="UNY-zD-7Ae"/>
                 <constraint firstItem="1Ch-Fy-opY" firstAttribute="leading" secondItem="3zS-Jc-Pd4" secondAttribute="leadingMargin" id="Uom-Xp-TBj"/>
                 <constraint firstItem="kIg-V3-T0p" firstAttribute="top" secondItem="1Ch-Fy-opY" secondAttribute="bottom" constant="8" id="a35-cV-0ZF"/>
@@ -88,6 +111,7 @@
                 <constraint firstItem="RBC-j8-o1J" firstAttribute="trailing" secondItem="kIg-V3-T0p" secondAttribute="trailing" id="spK-5L-aKA"/>
                 <constraint firstAttribute="trailing" secondItem="RBC-j8-o1J" secondAttribute="trailing" constant="8" id="wcx-f9-xcL"/>
                 <constraint firstItem="kIg-V3-T0p" firstAttribute="leading" secondItem="3zS-Jc-Pd4" secondAttribute="leading" constant="8" id="wwR-s7-Qir"/>
+                <constraint firstItem="tcT-it-bsZ" firstAttribute="top" secondItem="kIg-V3-T0p" secondAttribute="bottom" constant="33" id="ySm-5t-Q7i"/>
             </constraints>
             <variation key="default">
                 <mask key="constraints">

@@ -27,6 +27,7 @@
     if ([self.title  isEqual: @"Edit Company"]) {
         self.companyName.text = [[[[DAO sharedDAO] companies] objectAtIndex:self.indexPathRow] name];
         self.companyLogoURL.text = [[[[DAO sharedDAO] companies] objectAtIndex:self.indexPathRow] logo];
+        self.stockSymbol.text = [[[[DAO sharedDAO] companies] objectAtIndex:self.indexPathRow] stockSym];
     }
     
 }
@@ -41,7 +42,7 @@
 {
     if ([self.title  isEqual: @"Edit Company"]) {
         
-        [[DAO sharedDAO] editCompany:self.companyName.text logo:self.companyLogoURL.text andIndexPath:self.indexPathRow];
+        [[DAO sharedDAO] editCompany:self.companyName.text logo:self.companyLogoURL.text andIndexPath:self.indexPathRow andStockSymbol:self.stockSymbol.text];
         
     }
     else {
@@ -67,6 +68,7 @@
 - (void)dealloc {
     [_companyName release];
     [_companyLogoURL release];
+    [_stockSymbol release];
     [super dealloc];
 }
 @end

@@ -14,6 +14,8 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, retain) NSString *logo;
 @property (nonatomic, retain) NSMutableArray *products;
+@property (nonatomic, strong) NSString *stockPrice;
+@property (nonatomic, strong) NSString *stockSym;
 
 -(instancetype)initWithName:(NSString *)name logo:(NSString *)logo;
 @end

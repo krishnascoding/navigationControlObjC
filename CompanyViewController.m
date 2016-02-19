@@ -44,6 +44,10 @@
     [self.dao createCompanies];
 //       NSLog(@"second->%@",dao1.companies);
     self.companyList = self.dao.companies;
+//    
+//    [self updateStockPrice];
+//    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(updateStockPrice) userInfo:nil repeats:YES];
+//    
     
 
 }
@@ -85,7 +89,7 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     // Configure the cell...
@@ -95,6 +99,8 @@
        
     cell.textLabel.text =  company.name;
     cell.imageView.image = [UIImage imageNamed: company.logo];
+    cell.detailTextLabel.text = [[self.dao.companies objectAtIndex:indexPath.row] stockPrice];
+    
     
     return cell;
 }
@@ -102,7 +108,56 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self updateStockPrice];
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(updateStockPrice) userInfo:nil repeats:YES];
+    
+    NSLog(@"stock updated");
+    
+    
+    
     [self.tableView reloadData];
+    
+}
+
+-(void)updateStockPrice
+{
+    NSString *stockURL = @"http://finance.yahoo.com/d/quotes.csv?s=AAPL+SSNLF+MSFT+GOOG&f=l1";
+
+    NSURLSession *session = [NSURLSession sharedSession];
+    
+    [[session dataTaskWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:stockURL]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSString *stockString = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+        NSArray *rows = [stockString componentsSeparatedByString:@"\n"];
+        self.stockPrices = [[NSMutableArray alloc] init];
+        for (NSString *row in rows) {
+            if ([row isEqualToString:@""] ) {
+                break;
+            }
+            
+            
+            [self.stockPrices addObject:row];
+            
+        }
+        
+        for (int i = 0; i < self.stockPrices.count; i++) {
+            
+            [[self.dao.companies objectAtIndex:i] setStockPrice:self.stockPrices[i]];
+            
+        }
+        
+        //        NSLog(@"%@", stockString);
+        NSLog(@"%@", self.stockPrices);
+        
+        
+        [self.tableView performSelectorOnMainThread:@selector(reloadData)
+                                         withObject:nil
+                                      waitUntilDone:NO];
+        
+    
+        
+        
+    }] resume];
     
 }
 
