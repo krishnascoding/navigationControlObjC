@@ -16,6 +16,8 @@
     
     if (self) {
         
+        _products = [[NSMutableArray alloc] init];
+        
         _name = name;
         _logo = logo;
         [_name retain];
