@@ -14,7 +14,7 @@
 
 @property(nonatomic, retain) NSMutableArray *companies;
 
--(NSMutableArray *)createCompanies;
+//-(NSMutableArray *)createCompanies;
 +(DAO *)sharedDAO;
 -(void)createNewCompany:(NSString *)name andLogo:(NSString *)logo;
 -(void)editCompany:(NSString *)newName logo:(NSString *)logo andIndexPath:(NSInteger)indexPath andStockSymbol:(NSString *)stockSymbol;
