@@ -23,6 +23,8 @@
 		48A656E718163C1B00746D36 /* CompanyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48A656E518163C1B00746D36 /* CompanyViewController.xib */; };
 		48A656EB18163F8700746D36 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A656E918163F8700746D36 /* ProductViewController.m */; };
 		48A656EE1816468000746D36 /* Sunflower.gif in Resources */ = {isa = PBXBuildFile; fileRef = 48A656ED1816468000746D36 /* Sunflower.gif */; };
+		6B7F197A1C7F865900041AB8 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B7F19791C7F865900041AB8 /* libsqlite3.tbd */; };
+		6B7F197C1C7F8B5700041AB8 /* NavCtrl.db in Resources */ = {isa = PBXBuildFile; fileRef = 6B7F197B1C7F8B5700041AB8 /* NavCtrl.db */; };
 		6BD13C931C764493009975E5 /* AddProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD13C921C764493009975E5 /* AddProductViewController.m */; };
 		6BD13C961C7644DC009975E5 /* AddProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BD13C951C7644DC009975E5 /* AddProductViewController.xib */; };
 		6BDBE9191C6E83C500619E4D /* Company.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDBE9181C6E83C500619E4D /* Company.m */; };
@@ -83,6 +85,8 @@
 		48A656E818163F8700746D36 /* ProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProductViewController.h; path = ../ProductViewController.h; sourceTree = "<group>"; };
 		48A656E918163F8700746D36 /* ProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProductViewController.m; path = ../ProductViewController.m; sourceTree = "<group>"; };
 		48A656ED1816468000746D36 /* Sunflower.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Sunflower.gif; sourceTree = "<group>"; };
+		6B7F19791C7F865900041AB8 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		6B7F197B1C7F8B5700041AB8 /* NavCtrl.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = NavCtrl.db; sourceTree = SOURCE_ROOT; };
 		6BD13C911C764493009975E5 /* AddProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddProductViewController.h; sourceTree = "<group>"; };
 		6BD13C921C764493009975E5 /* AddProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddProductViewController.m; sourceTree = "<group>"; };
 		6BD13C951C7644DC009975E5 /* AddProductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProductViewController.xib; sourceTree = "<group>"; };
@@ -121,6 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B7F197A1C7F865900041AB8 /* libsqlite3.tbd in Frameworks */,
 				6BE744721C6E4BDA0026B08C /* WebKit.framework in Frameworks */,
 				48A656B718163BF200746D36 /* CoreGraphics.framework in Frameworks */,
 				48A656B918163BF200746D36 /* UIKit.framework in Frameworks */,
@@ -191,6 +196,7 @@
 		48A656B318163BF200746D36 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6B7F19791C7F865900041AB8 /* libsqlite3.tbd */,
 				6BE744711C6E4BDA0026B08C /* WebKit.framework */,
 				48A656B418163BF200746D36 /* Foundation.framework */,
 				48A656B618163BF200746D36 /* CoreGraphics.framework */,
@@ -203,6 +209,7 @@
 		48A656BA18163BF200746D36 /* NavCtrl */ = {
 			isa = PBXGroup;
 			children = (
+				6B7F197B1C7F8B5700041AB8 /* NavCtrl.db */,
 				6BDBE9E31C74D5C800619E4D /* DAO */,
 				483796CB1BCBF7A00062D5AB /* AppDelegate */,
 				6BDBE91B1C6E83FA00619E4D /* Product */,
@@ -417,6 +424,7 @@
 				6BE744671C6E3A650026B08C /* galaxys4.jpg in Resources */,
 				48A656EE1816468000746D36 /* Sunflower.gif in Resources */,
 				6BE7446F1C6E3A650026B08C /* venuepro.jpg in Resources */,
+				6B7F197C1C7F8B5700041AB8 /* NavCtrl.db in Resources */,
 				6BD13C961C7644DC009975E5 /* AddProductViewController.xib in Resources */,
 				6BDBE9E91C74E5A700619E4D /* AddEditViewController.xib in Resources */,
 				48A656E718163C1B00746D36 /* CompanyViewController.xib in Resources */,

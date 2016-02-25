@@ -17,5 +17,5 @@
 @property (nonatomic, strong) NSString *stockPrice;
 @property (nonatomic, strong) NSString *stockSym;
 
--(instancetype)initWithName:(NSString *)name logo:(NSString *)logo;
+-(instancetype)initWithName:(NSString *)name logo:(NSString *)logo andStockSym:(NSString *)stockSym;
 @end

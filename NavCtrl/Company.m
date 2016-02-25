@@ -10,7 +10,7 @@
 
 @implementation Company
 
--(instancetype)initWithName:(NSString *)name logo:(NSString *)logo
+-(instancetype)initWithName:(NSString *)name logo:(NSString *)logo andStockSym:(NSString *)stockSym
 {
     self = [super init];
     
@@ -18,8 +18,10 @@
         
         _products = [[NSMutableArray alloc] init];
         
+        _stockSym = stockSym;
         _name = name;
         _logo = logo;
+        [_stockSym retain];
         [_name retain];
         [_logo retain];
         

@@ -49,7 +49,7 @@
     }
     else {
         
-    [[DAO sharedDAO] createNewCompany:self.companyName.text andLogo:self.companyLogoURL.text];
+    [[DAO sharedDAO] createNewCompany:self.companyName.text andLogo:self.companyLogoURL.text andStockSym:self.stockSymbol.text];
         
     }
     

@@ -11,6 +11,8 @@
 
 @interface CompanyViewController ()
 @property (nonatomic, retain) DAO *dao;
+
+-(void)loadData;
 @end
 
 @implementation CompanyViewController
@@ -41,8 +43,25 @@
     
     self.dao = [DAO sharedDAO];
 //    [self.dao createCompanies];
+    [self loadData];
 
 
+}
+
+-(void)loadData
+{
+    // Form the query.
+    NSString *query = @"select * from Company";
+    
+    // Get the results.
+    if (self.dao.companies != nil) {
+        self.dao.companies = nil;
+    }
+    
+   [self.dao loadDataFromDB:query];
+    
+    // Reload the table view.
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
