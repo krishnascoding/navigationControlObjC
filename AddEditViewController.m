@@ -11,7 +11,6 @@
 
 @interface AddEditViewController ()
 
-
 @end
 
 @implementation AddEditViewController
@@ -25,9 +24,12 @@
     self.navigationItem.rightBarButtonItem = saveButton;
     
     if ([self.title  isEqual: @"Edit Company"]) {
-        self.companyName.text = [[[[DAO sharedDAO] companies] objectAtIndex:self.indexPathRow] name];
-        self.companyLogoURL.text = [[[[DAO sharedDAO] companies] objectAtIndex:self.indexPathRow] logo];
-        self.stockSymbol.text = [[[[DAO sharedDAO] companies] objectAtIndex:self.indexPathRow] stockSym];
+        
+        Company *company = [[[DAO sharedDAO] companies] objectAtIndex:self.indexPathRow];
+        
+        self.companyName.text = [company name];
+        self.companyLogoURL.text = [company logo];
+        self.stockSymbol.text = [company stockSym];
     }
     
 }
@@ -42,7 +44,7 @@
 {
     if ([self.title  isEqual: @"Edit Company"]) {
         
-        [[DAO sharedDAO] editCompany:self.companyName.text logo:self.companyLogoURL.text andIndexPath:self.indexPathRow andStockSymbol:self.stockSymbol.text];
+        [[DAO sharedDAO] editCompany:self.companyName.text logo:self.companyLogoURL.text andIndexPathRow:self.indexPathRow andStockSymbol:self.stockSymbol.text];
         
     }
     else {

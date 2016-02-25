@@ -18,16 +18,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    myWebView = [UIWebView alloc];
-//    [myWebView initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-//    NSLog(@"h %f w %f", self.view.frame.size.width, self.view.frame.size.height);
-    
-////    NSString *urlString = @"http://www.google.com";
-//    NSURL *url = [NSURL URLWithString:urlString];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-//    [myWebView loadRequest:request];
-//    [self.view addSubview:myWebView];
-//    self.view = self.myWebView;
     
     // WKWebkit
     WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];

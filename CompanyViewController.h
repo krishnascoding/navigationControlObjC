@@ -15,15 +15,8 @@
 
 @interface CompanyViewController : UITableViewController
 
-@property (nonatomic, retain) NSMutableArray *companyList;
-@property (nonatomic, retain) NSMutableArray *companyLogos;
-
 @property (nonatomic, retain) IBOutlet  ProductViewController * productViewController;
-
 @property (nonatomic, retain) AddEditViewController *addEditVC;
-
 @property (nonatomic, strong) NSMutableArray *stockPrices;
-
-
 
 @end

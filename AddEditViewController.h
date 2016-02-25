@@ -10,10 +10,8 @@
 
 @interface AddEditViewController : UIViewController
 @property (retain, nonatomic) IBOutlet UITextField *companyName;
-
 @property (retain, nonatomic) IBOutlet UITextField *companyLogoURL;
 @property (nonatomic) NSInteger indexPathRow;
-
 @property (retain, nonatomic) IBOutlet UITextField *stockSymbol;
 
 

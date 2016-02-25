@@ -12,14 +12,10 @@
 #import "AddProductViewController.h"
 
 @interface ProductViewController : UITableViewController <UIGestureRecognizerDelegate>
+
 @property (nonatomic, retain) NSMutableArray *products;
-
-
 @property (nonatomic, retain) Company *currentCompany;
 @property (nonatomic, retain) Product *currentProduct;
-
-@property (nonatomic, retain) NSMutableArray *companyList;
-
 @property (nonatomic, strong) AddProductViewController *addProductVC;
 
 @end

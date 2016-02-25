@@ -18,10 +18,10 @@
         _productName = productName;
         _productURL = productURL;
         _productImage = productImage;
-        
+
         [_productImage retain];
         [_productName retain];
-        [productURL retain];
+        [_productURL retain];
         
         return self;
     }

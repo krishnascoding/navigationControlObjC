@@ -24,9 +24,12 @@
     self.navigationItem.rightBarButtonItem = saveButton;
     
     if ([self.title  isEqual: @"Edit Product"]) {
-        self.productName.text = [[self.currentCompany.products objectAtIndex:self.indexPathRow] productName];
-        self.productLogo.text = [[self.currentCompany.products objectAtIndex:self.indexPathRow] productImage];
-        self.productURL.text = [[self.currentCompany.products objectAtIndex:self.indexPathRow] productURL];
+        
+        Product *product = [self.currentCompany.products objectAtIndex:self.indexPathRow];
+        
+        self.productName.text = [product productName];
+        self.productLogo.text = [product productImage];
+        self.productURL.text = [product productURL];
     
     }
 
@@ -37,7 +40,7 @@
     
     if ([self.title  isEqual: @"Edit Product"]) {
         
-        [[DAO sharedDAO] editProduct:self.productName.text andImage:self.productLogo.text andURL:self.productURL.text forCurrentCompany:self.currentCompany atIndexPath:self.indexPathRow];
+        [[DAO sharedDAO] editProduct:self.productName.text andImage:self.productLogo.text andURL:self.productURL.text forCurrentCompany:self.currentCompany atIndexPathRow:self.indexPathRow];
                 
     }
     else {

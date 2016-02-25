@@ -9,13 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "Company.h"
 
-
 @interface AddProductViewController : UIViewController
 @property (retain, nonatomic) IBOutlet UITextField *productName;
 @property (retain, nonatomic) IBOutlet UITextField *productLogo;
 @property (retain, nonatomic) IBOutlet UITextField *productURL;
 @property (nonatomic, retain) Company *currentCompany;
-
 @property (nonatomic) NSInteger indexPathRow;
 
 @end

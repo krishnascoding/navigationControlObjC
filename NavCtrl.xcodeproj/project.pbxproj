@@ -172,9 +172,6 @@
 			isa = PBXGroup;
 			children = (
 				6BDBE9E71C74E51400619E4D /* AddEditCompanyVC */,
-				6BDBE9E41C74E50C00619E4D /* AddEditViewController.h */,
-				6BDBE9E51C74E50C00619E4D /* AddEditViewController.m */,
-				6BDBE9E81C74E5A700619E4D /* AddEditViewController.xib */,
 				48A656BA18163BF200746D36 /* NavCtrl */,
 				48A656D318163BF200746D36 /* NavCtrlTests */,
 				48A656B318163BF200746D36 /* Frameworks */,
@@ -296,6 +293,9 @@
 		6BDBE9E71C74E51400619E4D /* AddEditCompanyVC */ = {
 			isa = PBXGroup;
 			children = (
+				6BDBE9E41C74E50C00619E4D /* AddEditViewController.h */,
+				6BDBE9E51C74E50C00619E4D /* AddEditViewController.m */,
+				6BDBE9E81C74E5A700619E4D /* AddEditViewController.xib */,
 			);
 			name = AddEditCompanyVC;
 			sourceTree = "<group>";

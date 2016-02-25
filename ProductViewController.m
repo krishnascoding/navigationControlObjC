@@ -10,11 +10,9 @@
 #import "MyWebViewViewController.h"
 
 @interface ProductViewController ()
-//@property (nonatomic, retain) MyWebViewViewController *myWebView;
 
 @property (nonatomic, retain) CompanyViewController *companyVC;
 @property (nonatomic, retain) DAO *dao;
-
 
 @end
 
@@ -99,12 +97,10 @@
     
     cell.textLabel.text = [[self.products objectAtIndex:[indexPath row]] productName];
     cell.imageView.image = [UIImage imageNamed:[[self.products objectAtIndex:indexPath.row] productImage]];
-//    [[cell imageView] setImage:[UIImage imageNamed:[[self.productImages objectForKey:self.currentCompany] objectAtIndex:indexPath.row]]];
-    
-    
+  
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
                                           initWithTarget:self action:@selector(handleLongPress:)];
-    lpgr.minimumPressDuration = 2.0; //seconds
+    lpgr.minimumPressDuration = 2.0; 
     lpgr.delegate = self;
     [self.tableView addGestureRecognizer:lpgr];
     [lpgr release];
@@ -158,7 +154,7 @@
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         
-            }
+    }
     
     [tableView reloadData];
 }
@@ -180,7 +176,6 @@
     return YES;
 }
 
-
 #pragma mark - Table view delegate
 
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
@@ -189,9 +184,11 @@
 //     Pass the selected object to the new view controller.
 //     Push the view controller.
     
+    Product *product = [self.products objectAtIndex:indexPath.row];
+    
     MyWebViewViewController *myWebView = [[MyWebViewViewController alloc] init];
-    myWebView.urlString = [[self.products objectAtIndex:indexPath.row] productURL];
-    myWebView.title = [[self.products objectAtIndex:indexPath.row]productName];
+    myWebView.urlString = [product productURL];
+    myWebView.title = [product productName];
     
     [self.navigationController pushViewController:myWebView animated:YES];
 }

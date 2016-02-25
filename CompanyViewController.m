@@ -40,13 +40,10 @@
     self.title = @"Mobile device makers";
     
     self.dao = [DAO sharedDAO];
-    [self.dao createCompanies];
-    self.companyList = self.dao.companies;
-
+//    [self.dao createCompanies];
 
 
 }
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -76,7 +73,7 @@
 {
 //#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return [self.companyList count];
+    return [self.dao.companies count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -90,12 +87,10 @@
     // Configure the cell...
     
     Company *company = [self.dao.companies objectAtIndex: indexPath.row];
-    
        
     cell.textLabel.text =  company.name;
     cell.imageView.image = [UIImage imageNamed: company.logo];
     cell.detailTextLabel.text = [[self.dao.companies objectAtIndex:indexPath.row] stockPrice];
-    
     
     return cell;
 }
@@ -105,7 +100,7 @@
     [super viewWillAppear:animated];
     
     [self updateStockPrice];
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(updateStockPrice) userInfo:nil repeats:YES];
+    __unused NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(updateStockPrice) userInfo:nil repeats:YES];
     
     NSLog(@"stock updated");
     
@@ -113,7 +108,6 @@
     [self.tableView reloadData];
     
 }
-//SSNLF
 
 -(void)updateStockPrice
 {
@@ -122,7 +116,6 @@
     NSMutableString *baseURL = [[NSMutableString alloc ] initWithString: @"http://finance.yahoo.com/d/quotes.csv?s="];
     
     for (int i = 0; i < [self.dao.companies count]; i++) {
-//        baseURL = (NSMutableString*)[baseURL stringByAppendingString:[[self.dao.companies objectAtIndex:i]stockSym]];
         
         NSString *stock = [[self.dao.companies objectAtIndex:i]stockSym];
         
@@ -137,12 +130,6 @@
         
     }
     baseURL = (NSMutableString *)[NSString stringWithFormat:@"%@&f=l1", baseURL];
-    
-//    NSLog(@"base url %@", baseURL);
-//    
-//    NSLog(@"stock sym %@", [[self.dao.companies objectAtIndex:0]stockSym]);
-//    
-    
 
     NSURLSession *session = [NSURLSession sharedSession];
     
@@ -155,7 +142,6 @@
                 break;
             }
             
-            
             [self.stockPrices addObject:row];
             
         }
@@ -166,15 +152,13 @@
             
         }
         
-        //        NSLog(@"%@", stockString);
         NSLog(@"%@", self.stockPrices);
         
         
         [self.tableView performSelectorOnMainThread:@selector(reloadData)
                                          withObject:nil
                                       waitUntilDone:NO];
-        
-        
+
     }] resume];
     
 }
@@ -195,8 +179,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
         
-        [self.companyList removeObjectAtIndex:indexPath.row];
-//        [self.companyLogos removeObjectAtIndex:indexPath.row];
+        [self.dao.companies removeObjectAtIndex:indexPath.row];
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }   
@@ -212,14 +195,10 @@
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
    
-    //Move items around in companyList array
-    id company = [[[self.companyList objectAtIndex:fromIndexPath.row] retain] autorelease];
-    [self.companyList removeObjectAtIndex:fromIndexPath.row];
-    [self.companyList insertObject:company atIndex:toIndexPath.row];
-//    //Move items around in companyLogos array
-//    id logo = [[[self.companyLogos objectAtIndex:fromIndexPath.row] retain] autorelease];
-//    [self.companyLogos removeObjectAtIndex:fromIndexPath.row];
-//    [self.companyLogos insertObject:logo atIndex:toIndexPath.row];
+    //Move items around in companies array in Dao
+    id company = [[[self.dao.companies objectAtIndex:fromIndexPath.row] retain] autorelease];
+    [self.dao.companies removeObjectAtIndex:fromIndexPath.row];
+    [self.dao.companies insertObject:company atIndex:toIndexPath.row];
     
 }
 
@@ -248,8 +227,7 @@
     }
     
     self.productViewController.title = [self.dao.companies[indexPath.row] name];
-    self.productViewController.currentCompany = self.companyList[indexPath.row];
-    self.productViewController.companyList = self.companyList;
+    self.productViewController.currentCompany = self.dao.companies[indexPath.row];
     
     [self.navigationController
         pushViewController:self.productViewController
