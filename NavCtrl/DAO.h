@@ -18,7 +18,7 @@
 @property (nonatomic) long long lastInsertedRowID;
 
 -(instancetype)initWithDatabase;
--(void)loadDataFromDB:(NSString *)query;
+-(void)loadDataFromDB;
 -(void)executeQuery:(NSString *)query;
 
 // DAO methods and property
@@ -30,6 +30,12 @@
 -(void)editCompany:(NSString *)newName logo:(NSString *)logo andIndexPathRow:(NSInteger)indexPathRow andStockSymbol:(NSString *)stockSymbol;
 -(void)createNewProduct:(NSString *)name andImage:(NSString *)image andURL:(NSString *)url forCurrentCompany:(Company*)currentCompany;
 -(void)editProduct:(NSString *)name andImage:(NSString *)image andURL:(NSString *)url forCurrentCompany:(Company*)currentCompany atIndexPathRow:(NSInteger)indexPathRow;
+
+//
+-(void)deleteCompany:(int)ID;
+-(void)moveCompany:(double)companyOrder andID:(int)companyID;
+-(void)moveCompany:(int)companyID toIndexPathRow:(NSInteger)toIndexPathRow fromIndexPathRow:(NSInteger)fromIndexPathRow;
+-(void)deleteProduct:(int)productID;
 
 
 @end

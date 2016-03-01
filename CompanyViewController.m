@@ -12,7 +12,6 @@
 @interface CompanyViewController ()
 @property (nonatomic, retain) DAO *dao;
 
--(void)loadData;
 @end
 
 @implementation CompanyViewController
@@ -42,26 +41,8 @@
     self.title = @"Mobile device makers";
     
     self.dao = [DAO sharedDAO];
-//    [self.dao createCompanies];
-    [self loadData];
 
 
-}
-
--(void)loadData
-{
-    // Form the query.
-    NSString *query = @"select * from Company";
-    
-    // Get the results.
-    if (self.dao.companies != nil) {
-        self.dao.companies = nil;
-    }
-    
-   [self.dao loadDataFromDB:query];
-    
-    // Reload the table view.
-    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -117,13 +98,9 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    [self.dao loadDataFromDB];
     [self updateStockPrice];
     __unused NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(updateStockPrice) userInfo:nil repeats:YES];
-    
-    NSLog(@"stock updated");
-    
-    
     [self.tableView reloadData];
     
 }
@@ -140,7 +117,6 @@
         
         if (![[self.dao.companies objectAtIndex:i]stockSym]) {
             baseURL = (NSMutableString*)[NSString stringWithFormat:@"%@%@+", baseURL,@"xyda"];
-
             
         } else {
         
@@ -197,28 +173,28 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        // Delete the selected record
+        // Find the record ID
+        int recordToDelete = [[self.dao.companies objectAtIndex:indexPath.row] ID];
+        [self.dao deleteCompany:recordToDelete];
         
-        [self.dao.companies removeObjectAtIndex:indexPath.row];
-        
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
+    }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }
     
-    [tableView reloadData];
+    [self.tableView reloadData];
 }
 
 
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
-   
-    //Move items around in companies array in Dao
-    id company = [[[self.dao.companies objectAtIndex:fromIndexPath.row] retain] autorelease];
-    [self.dao.companies removeObjectAtIndex:fromIndexPath.row];
-    [self.dao.companies insertObject:company atIndex:toIndexPath.row];
+    int companyID = [[self.dao.companies objectAtIndex:fromIndexPath.row] ID];
+    [self.dao moveCompany:companyID toIndexPathRow:toIndexPath.row fromIndexPathRow:fromIndexPath.row];
     
+    [tableView reloadData];
+
 }
 
 
@@ -247,6 +223,7 @@
     
     self.productViewController.title = [self.dao.companies[indexPath.row] name];
     self.productViewController.currentCompany = self.dao.companies[indexPath.row];
+//    self.productViewController.currentComp = indexPath.row;
     
     [self.navigationController
         pushViewController:self.productViewController

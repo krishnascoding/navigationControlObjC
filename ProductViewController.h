@@ -17,5 +17,6 @@
 @property (nonatomic, retain) Company *currentCompany;
 @property (nonatomic, retain) Product *currentProduct;
 @property (nonatomic, strong) AddProductViewController *addProductVC;
+@property (nonatomic) NSInteger currentComp;
 
 @end

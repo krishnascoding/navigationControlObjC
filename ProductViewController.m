@@ -47,8 +47,6 @@
     
     [super viewWillAppear:animated];
     
-    self.products = self.currentCompany.products;
-
     [self.tableView reloadData];
 }
 
@@ -60,13 +58,11 @@
 
 -(void)addItem:(id)sender
 {
-    
     self.addProductVC = [[AddProductViewController alloc] initWithNibName:@"AddProductViewController" bundle:nil];
     self.addProductVC.title = @"Add Product";
     self.addProductVC.currentCompany = self.currentCompany;
     
     [self.navigationController pushViewController:self.addProductVC animated:YES];
-    
 }
 
 #pragma mark - Table view data source
@@ -95,8 +91,8 @@
     // Configure the cell...
     
     
-    cell.textLabel.text = [[self.products objectAtIndex:[indexPath row]] productName];
-    cell.imageView.image = [UIImage imageNamed:[[self.products objectAtIndex:indexPath.row] productImage]];
+    cell.textLabel.text = [[self.currentCompany.products objectAtIndex:[indexPath row]] productName];
+    cell.imageView.image = [UIImage imageNamed:[[self.currentCompany.products objectAtIndex:indexPath.row] productImage]];
   
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
                                           initWithTarget:self action:@selector(handleLongPress:)];
@@ -147,9 +143,12 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
         
+        // Delete the selected record.
+        // Find the record ID.l
+        int recordToDelete = [[self.currentCompany.products objectAtIndex:indexPath.row] productID];
+        [self.dao deleteProduct:recordToDelete];
         [self.currentCompany.products removeObjectAtIndex:indexPath.row];
         
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -184,7 +183,7 @@
 //     Pass the selected object to the new view controller.
 //     Push the view controller.
     
-    Product *product = [self.products objectAtIndex:indexPath.row];
+    Product *product = [self.currentCompany.products objectAtIndex:indexPath.row];
     
     MyWebViewViewController *myWebView = [[MyWebViewViewController alloc] init];
     myWebView.urlString = [product productURL];

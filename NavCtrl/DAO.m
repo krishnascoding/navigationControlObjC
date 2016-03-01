@@ -173,22 +173,58 @@
     sqlite3_close(sqlite3Database);
 }
 
--(void)loadDataFromDB:(NSString *)query{
+-(void)loadDataFromDB {
     // Run the query and indicate that is not executable.
     // The query string is converted to a char* object.
+    
+    // Form the query.
+    NSString *query = @"select * from Company order by companyOrder";
+    
     [self runQuery:[query UTF8String] isQueryExecutable:NO];
+    NSArray *clist = [NSArray arrayWithArray: self.arrResults];
     
     NSMutableArray *arr = [[NSMutableArray alloc] init];
+
     
-    for (int i = 0; i < self.arrResults.count; i++) {
+    for (int i = 0; i < clist.count; i++) {
         
-        Company *company = [[Company alloc] initWithName:[[self.arrResults objectAtIndex:i] objectAtIndex:1]logo:[[self.arrResults objectAtIndex:i] objectAtIndex:2] andStockSym:[[self.arrResults objectAtIndex:i] objectAtIndex:3]];
+        NSArray *cdata = [clist objectAtIndex:i];
         
-        [arr addObject:company];
+        Company *company = [[Company alloc] initWithName:[cdata objectAtIndex:2]logo:[cdata objectAtIndex:3] andStockSym:[cdata  objectAtIndex:4]];
+        
+        
+        double compOrder = [[cdata objectAtIndex:1] doubleValue];
+        int companyID = [[cdata objectAtIndex:0] intValue];
+        
+        [company setOrder:compOrder];
+        [company setID:companyID];
+       
+            NSString *productQuery = [NSString stringWithFormat:@"select * from Products where company_id=%d",companyID];
+            [self runQuery:[productQuery UTF8String] isQueryExecutable:NO];
+        
+        
+            NSMutableArray *productArr = [[NSMutableArray alloc] init];
+            
+            for (int p = 0; p < self.arrResults.count; p++) {
+                Product *product = [[Product alloc]initWithName:[[self.arrResults objectAtIndex:p] objectAtIndex:3] url:[[self.arrResults objectAtIndex:p] objectAtIndex:4] andImage:[[self.arrResults objectAtIndex:p] objectAtIndex:5]];
+                
+                double productOrder = [[[self.arrResults objectAtIndex:p] objectAtIndex:1] doubleValue];
+                int productID = [[[self.arrResults objectAtIndex:p] objectAtIndex:0] intValue];
+                
+                [product setProductID:productID];
+                [product setProductOrder:productOrder];
+                [productArr addObject:product];
+                
+            }
+        
+            [company setProducts:productArr];
+        
+            [arr addObject:company];
         
     }
     
     self.companies = arr;
+    
     
 }
 
@@ -202,33 +238,83 @@
 
 -(void)createNewCompany:(NSString *)name andLogo:(NSString *)logo andStockSym:(NSString *)stockSym
 {
+    double companyOrder = 0;
+    double newCompOrder = 0;
     
-    Company *newCompany = [[Company alloc] initWithName:name logo:logo andStockSym:stockSym];
+    if ([self.companies objectAtIndex:self.companies.count - 1] >= 0) {
+        companyOrder = [[self.companies objectAtIndex:self.companies.count - 1] order];
+        newCompOrder = companyOrder + 1.0;
+    } else {
+        newCompOrder = 1.0;
+    }
 
-    [self.companies addObject:newCompany];
+    
+    
+    NSString *query = [NSString stringWithFormat:@"insert into Company (companyName, companyLogo, stockSymbol, companyOrder) values ('%@','%@', '%@', '%f')", name, logo, stockSym, newCompOrder];
+    
+    [self executeQuery:query];
     
 }
 
 -(void)editCompany:(NSString *)newName logo:(NSString *)logo andIndexPathRow:(NSInteger)indexPathRow andStockSymbol:(NSString *)stockSymbol
 {
-    Company *company = [self.companies objectAtIndex:indexPathRow];
+
+    int companyID = [[self.companies objectAtIndex:indexPathRow] ID];
     
-    [company setLogo:logo];
-    [company setName: newName];
-    [company setStockSym: stockSymbol];
+    NSString *query = [NSString stringWithFormat:@"update Company Set companyName='%@', companyLogo='%@', stockSymbol='%@' where ID=%d", newName, logo, stockSymbol, companyID];
+    
+    [self executeQuery:query];
 
 
 }
 -(void)createNewProduct:(NSString *)name andImage:(NSString *)image andURL:(NSString *)url forCurrentCompany:(Company *)currentCompany
 {
-    Product *newProduct = [[Product alloc] initWithName:name url:url andImage:image];
+    double prodOrder = 0;
+    double newProductOrder = 0;
+
     
-    [currentCompany.products addObject:newProduct];
+    if (currentCompany.products.count >= 1) {
+        prodOrder = [[currentCompany.products objectAtIndex:currentCompany.products.count - 1] productOrder];
+        newProductOrder = prodOrder + 1.0;
+    } else {
+        newProductOrder = 1.0;
+    }
+    
+    
+    int companyID = currentCompany.ID;
+    
+    
+    NSString *query = [NSString stringWithFormat:@"insert into Products (productName, productImage, productURL, productOrder, company_id) values ('%@','%@', '%@', '%f', %d)", name, image, url, newProductOrder, companyID];
+    
+    [self executeQuery:query];
+    
+    Product *newProduct = [[Product alloc] initWithName:name url:url andImage:image];
+    [newProduct setProductOrder:newProductOrder];
+    [newProduct setProductID:[currentCompany ID]];
+    
+    [[currentCompany products] addObject:newProduct];
+
+    
+//    
+//    
+//    Product *newProduct = [[Product alloc] initWithName:name url:url andImage:image];
+//    
+//    [currentCompany.products addObject:newProduct];
 
 }
 
 -(void)editProduct:(NSString *)name andImage:(NSString *)image andURL:(NSString *)url forCurrentCompany:(Company *)currentCompany atIndexPathRow:(NSInteger)indexPathRow
 {
+    
+//    int companyProducts = currentCompany.products;
+    int productID = [[currentCompany.products objectAtIndex:indexPathRow]productID];
+    
+    
+    NSString *query = [NSString stringWithFormat:@"update Products Set productName='%@', productImage='%@', productURL='%@' where ID=%d", name, image, url, productID];
+    
+    [self executeQuery:query];
+    
+    
     Product *product = [currentCompany.products objectAtIndex:indexPathRow];
     
     [product setProductName:name];
@@ -237,5 +323,86 @@
     
 }
 
+
+-(void)deleteCompany:(int)ID
+{
+    // Prepare the query.
+    NSString *query = [NSString stringWithFormat:@"delete from Company where ID=%d", ID];
+    
+    // Execute the query.
+    [self executeQuery:query];
+    
+    for (Company *company in self.companies) {
+        if (company.ID  == ID) {
+            [self.companies removeObject:company];
+            break;
+        }
+    }
+}
+
+-(void)moveCompany:(double)companyOrder andID:(int)companyID
+{
+    NSString *query = [NSString stringWithFormat:@"update Company Set companyOrder=%f where id =%d",companyOrder, companyID];
+    
+    [self executeQuery:query];
+    
+    [self loadDataFromDB];
+    
+}
+
+-(void)moveCompany:(int)companyID toIndexPathRow:(NSInteger )toIndexPathRow fromIndexPathRow:(NSInteger)fromIndexPathRow
+{
+    
+    // Query to update Order
+    double orderBefore = 0;
+    double orderAfter = [self.companies count] - 1;
+    
+    if (toIndexPathRow == 0) {
+        if ([self.companies objectAtIndex:toIndexPathRow]) {
+            orderAfter = [[self.companies objectAtIndex:toIndexPathRow] order];
+        } else {
+            return;
+        }
+        
+    } else {
+        
+        if (toIndexPathRow == orderAfter) {
+            orderBefore = [[self.companies objectAtIndex:toIndexPathRow] order];
+            orderAfter = orderBefore + 1.0;
+            
+        } else {
+            
+            if (toIndexPathRow > fromIndexPathRow) {
+                orderBefore = [[self.companies objectAtIndex:toIndexPathRow] order];
+                orderAfter = [[self.companies objectAtIndex:toIndexPathRow + 1] order];
+                
+            } else {
+                
+                orderBefore = [[self.companies objectAtIndex:toIndexPathRow - 1] order];
+                orderAfter = [[self.companies objectAtIndex:toIndexPathRow] order];
+                
+            }
+            
+        }
+        
+    }
+    
+    double orderQuery = ((orderBefore + orderAfter) / 2);    
+    NSString *query = [NSString stringWithFormat:@"update Company Set companyOrder=%f where id =%d",orderQuery, companyID];
+    [self executeQuery:query];
+    [self loadDataFromDB];
+    
+}
+
+-(void)deleteProduct:(int)productID
+{
+    
+    // Prepare the query.
+    NSString *query = [NSString stringWithFormat:@"delete from Products where id=%d", productID];
+    
+    // Execute the query.
+    [self executeQuery:query];
+
+}
 
 @end

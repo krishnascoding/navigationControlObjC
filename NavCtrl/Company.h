@@ -16,6 +16,8 @@
 @property (nonatomic, retain) NSMutableArray *products;
 @property (nonatomic, strong) NSString *stockPrice;
 @property (nonatomic, strong) NSString *stockSym;
+@property (nonatomic) double order;
+@property (nonatomic) int ID;
 
 -(instancetype)initWithName:(NSString *)name logo:(NSString *)logo andStockSym:(NSString *)stockSym;
 @end
