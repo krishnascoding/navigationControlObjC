@@ -83,14 +83,21 @@
         [self.arrResults removeAllObjects];
         self.arrResults = nil;
     }
-    self.arrResults = [[NSMutableArray alloc] init];
+    
+    NSMutableArray * __arrResults = [[NSMutableArray alloc] init];
+    self.arrResults = __arrResults;
+    [__arrResults release];
     
     // Initialize the column names array.
     if (self.arrColumnNames != nil) {
         [self.arrColumnNames removeAllObjects];
         self.arrColumnNames = nil;
     }
-    self.arrColumnNames = [[NSMutableArray alloc] init];
+    
+    NSMutableArray * __arrColumnNames = [[NSMutableArray alloc] init];
+    
+    self.arrColumnNames = __arrColumnNames;
+    [__arrColumnNames release];
     
     
     // Open the database.
@@ -112,7 +119,7 @@
                 // Loop through the results and add them to the results array row by row
                 while(sqlite3_step(compiledStatement) == SQLITE_ROW) {
                     // Initialize the mutable array that will contain the data of a fetched row.
-                    arrDataRow = [[NSMutableArray alloc] init];
+                     arrDataRow = [[NSMutableArray alloc] init];
                     
                     // Get the total number of columns.
                     int totalColumns = sqlite3_column_count(compiledStatement);
@@ -139,6 +146,9 @@
                     if (arrDataRow.count > 0) {
                         [self.arrResults addObject:arrDataRow];
                     }
+                    
+                    [arrDataRow release];
+                    
                 }
             }
             else {
@@ -198,6 +208,7 @@
         
         [company setOrder:compOrder];
         [company setID:companyID];
+        
        
             NSString *productQuery = [NSString stringWithFormat:@"select * from Products where company_id=%d",companyID];
             [self runQuery:[productQuery UTF8String] isQueryExecutable:NO];
@@ -215,15 +226,20 @@
                 [product setProductOrder:productOrder];
                 [productArr addObject:product];
                 
+                [product release];
+                
             }
         
             [company setProducts:productArr];
+            [productArr release];
         
             [arr addObject:company];
+            [company release];
         
     }
     
     self.companies = arr;
+    [arr release];
     
     
 }
@@ -248,11 +264,18 @@
         newCompOrder = 1.0;
     }
 
-    
+
     
     NSString *query = [NSString stringWithFormat:@"insert into Company (companyName, companyLogo, stockSymbol, companyOrder) values ('%@','%@', '%@', '%f')", name, logo, stockSym, newCompOrder];
     
     [self executeQuery:query];
+    
+    Company *newCompany = [[Company alloc] initWithName:name logo:logo andStockSym:stockSym];
+    [newCompany setOrder:newCompOrder];
+    [self.companies addObject:newCompany];
+    
+    [newCompany release];
+    
     
 }
 
@@ -293,13 +316,10 @@
     [newProduct setProductID:[currentCompany ID]];
     
     [[currentCompany products] addObject:newProduct];
-
     
-//    
-//    
-//    Product *newProduct = [[Product alloc] initWithName:name url:url andImage:image];
-//    
-//    [currentCompany.products addObject:newProduct];
+    [newProduct release];
+
+
 
 }
 

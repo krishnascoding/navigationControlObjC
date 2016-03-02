@@ -41,7 +41,14 @@
     self.title = @"Mobile device makers";
     
     self.dao = [DAO sharedDAO];
+    [self.dao loadDataFromDB];
 
+    
+    AddEditViewController *__addEditVC = [[AddEditViewController alloc] initWithNibName:@"AddEditViewController" bundle:nil];
+
+    self.addEditVC = __addEditVC;
+    [__addEditVC release];
+    
 
 }
 
@@ -54,7 +61,7 @@
 -(void)addItem:(id)sender
 {
  
-    self.addEditVC = [[AddEditViewController alloc] initWithNibName:@"AddEditViewController" bundle:nil];
+//    self.addEditVC = [[AddEditViewController alloc] initWithNibName:@"AddEditViewController" bundle:nil];
     self.addEditVC.title = @"Add Company";
     
     [self.navigationController pushViewController:self.addEditVC animated:YES];
@@ -81,7 +88,7 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
     
     // Configure the cell...
@@ -98,9 +105,14 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.dao loadDataFromDB];
-    [self updateStockPrice];
+    
+    self.productViewController.currentCompany = nil;
+    
+//    [self.dao loadDataFromDB];
+    
+//    
     __unused NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(updateStockPrice) userInfo:nil repeats:YES];
+    [timer fire];
     [self.tableView reloadData];
     
 }
@@ -116,38 +128,44 @@
         NSString *stock = [[self.dao.companies objectAtIndex:i]stockSym];
         
         if (![[self.dao.companies objectAtIndex:i]stockSym]) {
-            baseURL = (NSMutableString*)[NSString stringWithFormat:@"%@%@+", baseURL,@"xyda"];
+            
+            [baseURL appendString:[NSString stringWithFormat:@"%@+", @"xyda"]];
+            
+          //  baseURL = (NSMutableString*)[NSString stringWithFormat:@"%@%@+", baseURL,@"xyda"];
             
         } else {
+            [baseURL appendString:[NSString stringWithFormat:@"%@+", stock]];
         
-        baseURL = (NSMutableString*)[NSString stringWithFormat:@"%@%@+", baseURL,stock];
+        //baseURL = (NSMutableString*)[NSString stringWithFormat:@"%@%@+", baseURL,stock];
         }
         
     }
-    baseURL = (NSMutableString *)[NSString stringWithFormat:@"%@&f=l1", baseURL];
+    [baseURL appendString:@"@&f=l1"];
+    //baseURL = (NSMutableString *)[NSString stringWithFormat:@"%@&f=l1", baseURL];
 
     NSURLSession *session = [NSURLSession sharedSession];
     
     [[session dataTaskWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:baseURL]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSString *stockString = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
         NSArray *rows = [stockString componentsSeparatedByString:@"\n"];
-        self.stockPrices = [[NSMutableArray alloc] init];
+        //_stockPrices = [[NSMutableArray alloc] init];
+        int i = 0;
         for (NSString *row in rows) {
             if ([row isEqualToString:@""] ) {
                 break;
             }
-            
-            [self.stockPrices addObject:row];
-            
-        }
-        
-        for (int i = 0; i < self.stockPrices.count; i++) {
-            
-            [[self.dao.companies objectAtIndex:i] setStockPrice:self.stockPrices[i]];
-            
-        }
-        
-        NSLog(@"%@", self.stockPrices);
+            //[self.stockPrices addObject:row];
+            [[self.dao.companies objectAtIndex:i] setStockPrice:row];
+            i++;
+         }
+//        
+//        for (int i = 0; i < self.stockPrices.count; i++) {
+//            
+//            [[self.dao.companies objectAtIndex:i] setStockPrice:self.stockPrices[i]];
+//            
+//        }
+//        
+//        NSLog(@"%@", self.stockPrices);
         
         
         [self.tableView performSelectorOnMainThread:@selector(reloadData)
@@ -155,7 +173,9 @@
                                       waitUntilDone:NO];
 
     }] resume];
+    [baseURL release];
     
+//    [self.stockPrices release];
 }
 
 // Override to support conditional editing of the table view.
@@ -213,7 +233,7 @@
 {
     
     if (tableView.editing == YES) {
-        self.addEditVC = [[AddEditViewController alloc] initWithNibName:@"AddEditViewController" bundle:nil];
+//        self.addEditVC = [[AddEditViewController alloc] initWithNibName:@"AddEditViewController" bundle:nil];
         self.addEditVC.title = @"Edit Company";
         self.addEditVC.indexPathRow = indexPath.row;
         
@@ -222,8 +242,9 @@
     }
     
     self.productViewController.title = [self.dao.companies[indexPath.row] name];
-    self.productViewController.currentCompany = self.dao.companies[indexPath.row];
-//    self.productViewController.currentComp = indexPath.row;
+    id c = self.dao.companies[indexPath.row];
+    self.productViewController.currentCompany = c;
+      self.productViewController.currentComp = indexPath.row;
     
     [self.navigationController
         pushViewController:self.productViewController

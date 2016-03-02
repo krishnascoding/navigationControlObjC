@@ -20,7 +20,7 @@
     // Do any additional setup after loading the view.
     
     // WKWebkit
-    WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
+    WKWebViewConfiguration *configuration = [[[WKWebViewConfiguration alloc] init] autorelease];
     WKWebView *webView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
     webView.navigationDelegate = self;
     NSURL *url = [NSURL URLWithString:urlString];

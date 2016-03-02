@@ -40,7 +40,11 @@
     self.navigationItem.rightBarButtonItem = addButton;
     
     self.dao = [DAO sharedDAO];
-
+    AddProductViewController* __addProductVC = [[AddProductViewController alloc] initWithNibName:@"AddProductViewController" bundle:nil];
+    
+    self.addProductVC = __addProductVC;
+    [__addProductVC release];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -58,11 +62,10 @@
 
 -(void)addItem:(id)sender
 {
-    self.addProductVC = [[AddProductViewController alloc] initWithNibName:@"AddProductViewController" bundle:nil];
-    self.addProductVC.title = @"Add Product";
-    self.addProductVC.currentCompany = self.currentCompany;
-    
+    [self.addProductVC setTitle:@"Add Product"];
+    [self.addProductVC setCurrentCompany:self.currentCompany];
     [self.navigationController pushViewController:self.addProductVC animated:YES];
+    
 }
 
 #pragma mark - Table view data source
@@ -86,7 +89,7 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     // Configure the cell...
     
@@ -111,18 +114,22 @@
     
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p];
     if (indexPath == nil) {
-        NSLog(@"long press on table view but not on a row");
+//        NSLog(@"long press on table view but not on a row");
     } else if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        self.addProductVC = [[AddProductViewController alloc] initWithNibName:@"AddProductViewController" bundle:nil];
+//        AddProductViewController *__addProductVC = [[AddProductViewController alloc] initWithNibName:@"AddProductViewController" bundle:nil];
+        
+//        [self setAddProductVC: [[AddProductViewController alloc] initWithNibName:@"AddProductViewController" bundle:nil]];
+        
+//        [__addProductVC release];
+        
         self.addProductVC.title = @"Edit Product";
         self.addProductVC.indexPathRow = indexPath.row;
         self.addProductVC.currentCompany = self.currentCompany;
         
         [self.navigationController pushViewController:self.addProductVC animated:YES];
         
-        NSLog(@"long press on table view at row %ld", indexPath.row);
     } else {
-        NSLog(@"gestureRecognizer.state = %ld", gestureRecognizer.state);
+        
     }
 }
 
@@ -190,7 +197,12 @@
     myWebView.title = [product productName];
     
     [self.navigationController pushViewController:myWebView animated:YES];
+    [myWebView release];
 }
- 
+
+
+-(void)dealloc{
+    [super dealloc];
+}
 
 @end

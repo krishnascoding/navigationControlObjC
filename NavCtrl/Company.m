@@ -16,8 +16,6 @@
     
     if (self) {
         
-        _products = [[NSMutableArray alloc] init];
-        
         _stockSym = stockSym;
         _name = name;
         _logo = logo;
@@ -25,10 +23,30 @@
         [_name retain];
         [_logo retain];
         
-        return self;
+        
     }
-    return nil;
+    return self;
 }
 
+-(NSMutableArray*)products{
+    if(!_products){
+        _products = [[NSMutableArray alloc] init];
+        [_products retain];
+    }
+    return _products;
+}
+
+
+
+-(void)dealloc
+{
+    [_stockSym release];
+    [_name release];
+    [_logo release];
+    [_products release];
+    [_stockPrice release];
+    [super dealloc];
+
+}
 
 @end
