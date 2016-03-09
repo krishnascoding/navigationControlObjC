@@ -8,6 +8,8 @@
 
 #import "DAO.h"
 #import <sqlite3.h>
+#import "CompanyMO.h"
+
 
 @interface DAO()
 
@@ -36,213 +38,438 @@
     
 }
 
+- (id)init
+{
+    self = [super init];
+    if (!self) return nil;
+    
+    [self initializeCoreData];
+    
+    return self;
+}
+
+- (void)initializeCoreData
+{
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"DataModel" withExtension:@"momd"];
+    NSManagedObjectModel *mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    NSAssert(mom != nil, @"Error initializing Managed Object Model");
+    
+    NSPersistentStoreCoordinator *psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
+    NSManagedObjectContext *moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    [moc setPersistentStoreCoordinator:psc];
+    [self setManagedObjectContext:moc];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL *documentsURL = [[fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    NSURL *storeURL = [documentsURL URLByAppendingPathComponent:@"DataModel.sqlite"];
+    
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        NSError *error = nil;
+        NSPersistentStoreCoordinator *psc = [[self managedObjectContext] persistentStoreCoordinator];
+        NSPersistentStore *store = [psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error];
+        NSAssert(store != nil, @"Error initializing PSC: %@\n%@", [error localizedDescription], [error userInfo]);
+    });
+    
+    [self loadDataFromDB];
+    [psc release];
+    [moc release];
+    [mom release];
+}
+
+
+
 #pragma mark SQLite DB Methods
 
 -(instancetype)initWithDatabase{
     
     self = [super init];
+    if (!self) return nil;
     
-    if (self) {
-        
-        _dbSourcePath = [[NSBundle mainBundle] pathForResource:@"NavCtrl" ofType:@"db"];
-        
-        // Set the documents directory path to the documentsDirectory property
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        _documentsDirectory = [paths objectAtIndex:0];
-        
-        // Keep the database filename
-        _databaseFilename = @"/NavCtrl.db";
-        
-        //If needed, copy the database file into the documents directory
-        [self copyDatabaseIntoDocumentsDirectory];
-        
-    }
+    [self initializeCoreData];
     
     return self;
+
 }
 
 -(void)copyDatabaseIntoDocumentsDirectory{
-    // Check if the database file exists in the documents directory
-    self.databasePath = [self.documentsDirectory stringByAppendingPathComponent:self.databaseFilename];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:self.databasePath]) {
-        NSError *error = nil;
-        [[NSFileManager defaultManager] copyItemAtPath:self.dbSourcePath toPath:self.databasePath error:&error];
-
-        if (error) {
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }
+    
+        // Check if the database file exists in the documents directory
+//    self.databasePath = [self.documentsDirectory stringByAppendingPathComponent:self.databaseFilename];
+//    if (![[NSFileManager defaultManager] fileExistsAtPath:self.databasePath]) {
+//        NSError *error = nil;
+//        [[NSFileManager defaultManager] copyItemAtPath:self.dbSourcePath toPath:self.databasePath error:&error];
+//
+//        if (error) {
+//            NSLog(@"%@", error.localizedDescription);
+//        }
+//    }
 }
 
 -(void)runQuery:(const char *)query isQueryExecutable:(BOOL)queryExecutable{
-    // Create a sqlite object
-    sqlite3 *sqlite3Database;
-    
-    // Initialize the results array.
-    if (self.arrResults != nil) {
-        [self.arrResults removeAllObjects];
-        self.arrResults = nil;
-    }
-    
-    NSMutableArray * __arrResults = [[NSMutableArray alloc] init];
-    self.arrResults = __arrResults;
-    [__arrResults release];
-    
-    // Initialize the column names array.
-    if (self.arrColumnNames != nil) {
-        [self.arrColumnNames removeAllObjects];
-        self.arrColumnNames = nil;
-    }
-    
-    NSMutableArray * __arrColumnNames = [[NSMutableArray alloc] init];
-    
-    self.arrColumnNames = __arrColumnNames;
-    [__arrColumnNames release];
-    
-    
-    // Open the database.
-    int openDatabaseResult = sqlite3_open([self.databasePath UTF8String], &sqlite3Database);
-    if(openDatabaseResult == SQLITE_OK) {
-        // Declare a sqlite3_stmt object in which will be stored the query after having been compiled into a SQLite statement.
-        sqlite3_stmt *compiledStatement;
-        
-        // Load all data from database to memory
-        int prepareStatementResult = sqlite3_prepare_v2(sqlite3Database, query, -1, &compiledStatement, NULL);
-        if(prepareStatementResult == SQLITE_OK) {
-            // Check if the query is non-executable.
-            if (!queryExecutable){
-                // In this case data must be loaded from the database
-                
-                // Declare an array to keep the data for each fetched row
-                NSMutableArray *arrDataRow;
-                
-                // Loop through the results and add them to the results array row by row
-                while(sqlite3_step(compiledStatement) == SQLITE_ROW) {
-                    // Initialize the mutable array that will contain the data of a fetched row.
-                     arrDataRow = [[NSMutableArray alloc] init];
-                    
-                    // Get the total number of columns.
-                    int totalColumns = sqlite3_column_count(compiledStatement);
-                    
-                    // Go through all columns and fetch each column data.
-                    for (int i=0; i<totalColumns; i++){
-                        // Convert the column data to text (characters).
-                        char *dbDataAsChars = (char *)sqlite3_column_text(compiledStatement, i);
-                        
-                        // If there are contents in the currenct column (field) then add them to the current row array.
-                        if (dbDataAsChars != NULL) {
-                            // Convert the characters to string.
-                            [arrDataRow addObject:[NSString  stringWithUTF8String:dbDataAsChars]];
-                        }
-                        
-                        // Keep the current column name.
-                        if (self.arrColumnNames.count != totalColumns) {
-                            dbDataAsChars = (char *)sqlite3_column_name(compiledStatement, i);
-                            [self.arrColumnNames addObject:[NSString stringWithUTF8String:dbDataAsChars]];
-                        }
-                    }
-                    
-                    // Store each fetched data row in the results array, but first check if there is actually data.
-                    if (arrDataRow.count > 0) {
-                        [self.arrResults addObject:arrDataRow];
-                    }
-                    
-                    [arrDataRow release];
-                    
-                }
-            }
-            else {
-                // This is the case of an executable query (insert, update, ...).
-                
-                // Execute the query.
-                NSInteger executeQueryResults = sqlite3_step(compiledStatement);
-                if(executeQueryResults == SQLITE_DONE) {
-                    // Keep the affected rows.
-                    self.affectedRows = sqlite3_changes(sqlite3Database);
-                    
-                    // Keep the last inserted row ID.
-                    self.lastInsertedRowID = sqlite3_last_insert_rowid(sqlite3Database);
-                }
-                else {
-                    // If could not execute the query show the error message on the debugger.
-                    NSLog(@"DB Error: %s", sqlite3_errmsg(sqlite3Database));
-                }
-            }
-        }
-        else {
-            // In the database cannot be opened then show the error message on the debugger.
-            NSLog(@"%s", sqlite3_errmsg(sqlite3Database));
-        }
-        
-        // Release the compiled statement from memory.
-        sqlite3_finalize(compiledStatement);
-        
-    }
-    
-    // Close the database.
-    sqlite3_close(sqlite3Database);
+//    // Create a sqlite object
+//    sqlite3 *sqlite3Database;
+//    
+//    // Initialize the results array.
+//    if (self.arrResults != nil) {
+//        [self.arrResults removeAllObjects];
+//        self.arrResults = nil;
+//    }
+//    
+//    NSMutableArray * __arrResults = [[NSMutableArray alloc] init];
+//    self.arrResults = __arrResults;
+//    [__arrResults release];
+//    
+//    // Initialize the column names array.
+//    if (self.arrColumnNames != nil) {
+//        [self.arrColumnNames removeAllObjects];
+//        self.arrColumnNames = nil;
+//    }
+//    
+//    NSMutableArray * __arrColumnNames = [[NSMutableArray alloc] init];
+//    
+//    self.arrColumnNames = __arrColumnNames;
+//    [__arrColumnNames release];
+//    
+//    
+//    // Open the database.
+//    int openDatabaseResult = sqlite3_open([self.databasePath UTF8String], &sqlite3Database);
+//    if(openDatabaseResult == SQLITE_OK) {
+//        // Declare a sqlite3_stmt object in which will be stored the query after having been compiled into a SQLite statement.
+//        sqlite3_stmt *compiledStatement;
+//        
+//        // Load all data from database to memory
+//        int prepareStatementResult = sqlite3_prepare_v2(sqlite3Database, query, -1, &compiledStatement, NULL);
+//        if(prepareStatementResult == SQLITE_OK) {
+//            // Check if the query is non-executable.
+//            if (!queryExecutable){
+//                // In this case data must be loaded from the database
+//                
+//                // Declare an array to keep the data for each fetched row
+//                NSMutableArray *arrDataRow;
+//                
+//                // Loop through the results and add them to the results array row by row
+//                while(sqlite3_step(compiledStatement) == SQLITE_ROW) {
+//                    // Initialize the mutable array that will contain the data of a fetched row.
+//                     arrDataRow = [[NSMutableArray alloc] init];
+//                    
+//                    // Get the total number of columns.
+//                    int totalColumns = sqlite3_column_count(compiledStatement);
+//                    
+//                    // Go through all columns and fetch each column data.
+//                    for (int i=0; i<totalColumns; i++){
+//                        // Convert the column data to text (characters).
+//                        char *dbDataAsChars = (char *)sqlite3_column_text(compiledStatement, i);
+//                        
+//                        // If there are contents in the currenct column (field) then add them to the current row array.
+//                        if (dbDataAsChars != NULL) {
+//                            // Convert the characters to string.
+//                            [arrDataRow addObject:[NSString  stringWithUTF8String:dbDataAsChars]];
+//                        }
+//                        
+//                        // Keep the current column name.
+//                        if (self.arrColumnNames.count != totalColumns) {
+//                            dbDataAsChars = (char *)sqlite3_column_name(compiledStatement, i);
+//                            [self.arrColumnNames addObject:[NSString stringWithUTF8String:dbDataAsChars]];
+//                        }
+//                    }
+//                    
+//                    // Store each fetched data row in the results array, but first check if there is actually data.
+//                    if (arrDataRow.count > 0) {
+//                        [self.arrResults addObject:arrDataRow];
+//                    }
+//                    
+//                    [arrDataRow release];
+//                    
+//                }
+//            }
+//            else {
+//                // This is the case of an executable query (insert, update, ...).
+//                
+//                // Execute the query.
+//                NSInteger executeQueryResults = sqlite3_step(compiledStatement);
+//                if(executeQueryResults == SQLITE_DONE) {
+//                    // Keep the affected rows.
+//                    self.affectedRows = sqlite3_changes(sqlite3Database);
+//                    
+//                    // Keep the last inserted row ID.
+//                    self.lastInsertedRowID = sqlite3_last_insert_rowid(sqlite3Database);
+//                }
+//                else {
+//                    // If could not execute the query show the error message on the debugger.
+//                    NSLog(@"DB Error: %s", sqlite3_errmsg(sqlite3Database));
+//                }
+//            }
+//        }
+//        else {
+//            // In the database cannot be opened then show the error message on the debugger.
+//            NSLog(@"%s", sqlite3_errmsg(sqlite3Database));
+//        }
+//        
+//        // Release the compiled statement from memory.
+//        sqlite3_finalize(compiledStatement);
+//        
+//    }
+//    
+//    // Close the database.
+//    sqlite3_close(sqlite3Database);
 }
 
 -(void)loadDataFromDB {
     // Run the query and indicate that is not executable.
     // The query string is converted to a char* object.
     
-    // Form the query.
-    NSString *query = @"select * from Company order by companyOrder";
+    // Fetching
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"CompanyMO"];
     
-    [self runQuery:[query UTF8String] isQueryExecutable:NO];
-    NSArray *clist = [NSArray arrayWithArray: self.arrResults];
     
-    NSMutableArray *arr = [[NSMutableArray alloc] init];
-
     
-    for (int i = 0; i < clist.count; i++) {
+    // Add Sort Descriptor
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES];
+    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    
+    // Execute Fetch Request
+    NSError *fetchError = nil;
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    
+    self.moArray = [NSMutableArray arrayWithArray:result];
+    
+    if (!fetchError) {
         
-        NSArray *cdata = [clist objectAtIndex:i];
-        
-        Company *company = [[Company alloc] initWithName:[cdata objectAtIndex:2]logo:[cdata objectAtIndex:3] andStockSym:[cdata  objectAtIndex:4]];
-        
-        
-        double compOrder = [[cdata objectAtIndex:1] doubleValue];
-        int companyID = [[cdata objectAtIndex:0] intValue];
-        
-        [company setOrder:compOrder];
-        [company setID:companyID];
-        
-       
-            NSString *productQuery = [NSString stringWithFormat:@"select * from Products where company_id=%d",companyID];
-            [self runQuery:[productQuery UTF8String] isQueryExecutable:NO];
-        
-        
-            NSMutableArray *productArr = [[NSMutableArray alloc] init];
+//        CompanyMO *cmo = result[0];
+//        NSLog(@"psize %ld", cmo.products.count);
+      
+        if (result == nil || [result count] == 0) {
+ 
             
-            for (int p = 0; p < self.arrResults.count; p++) {
-                Product *product = [[Product alloc]initWithName:[[self.arrResults objectAtIndex:p] objectAtIndex:3] url:[[self.arrResults objectAtIndex:p] objectAtIndex:4] andImage:[[self.arrResults objectAtIndex:p] objectAtIndex:5]];
+//            Company *apple = [[Company alloc] initWithName:@"Apple mobile" logo:@"appleimage.jpg" andStockSym:@"AAPL"];
+            // Create Managed Object
+            NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"CompanyMO" inManagedObjectContext:self.managedObjectContext];
+           
+            CompanyMO *appleMO = [[CompanyMO alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:self.managedObjectContext];
+            
+            [appleMO setName:@"Apple mobile"];
+            //[appleMO setValue:@"Apple mobile"  forKey:@"name"];
+            [appleMO setLogo:@"appleimage.jpg"];
+            [appleMO setStockSym:@"AAPL"];
+            [appleMO setOrder:@1.0];
+            [appleMO setCompanyID:@1];
+            
+            
+            NSManagedObject *samsungMO = [[NSManagedObject alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:self.managedObjectContext];
+            [samsungMO setValue:@"Samsung mobile"  forKey:@"name"];
+            [samsungMO setValue:@"samsunglogo.jpg"  forKey:@"logo"];
+            [samsungMO setValue:@"GOOG" forKey:@"stockSym"];
+            [samsungMO setValue:@2.0 forKey:@"order"];
+            [samsungMO setValue:@2 forKey:@"companyID"];
+            
+            NSManagedObject *dellMO = [[NSManagedObject alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:self.managedObjectContext];
+            [dellMO setValue:@"Dell"  forKey:@"name"];
+            [dellMO setValue:@"delllogo.jpg"  forKey:@"logo"];
+            [dellMO setValue:@"FB" forKey:@"stockSym"];
+            [dellMO setValue:@3.0 forKey:@"order"];
+            [dellMO setValue:@3 forKey:@"companyID"];
+            
+            
+            NSManagedObject *microsoftMO = [[NSManagedObject alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:self.managedObjectContext];
+            [microsoftMO setValue:@"Microsoft"  forKey:@"name"];
+            [microsoftMO setValue:@"microsoftlogo.png"  forKey:@"logo"];
+            [microsoftMO setValue:@"MSFT" forKey:@"stockSym"];
+            [microsoftMO setValue:@4.0 forKey:@"order"];
+            [microsoftMO setValue:@4 forKey:@"companyID"];
+            
+            
+            NSEntityDescription *productEntityDescription = [NSEntityDescription entityForName:@"ProductsMO" inManagedObjectContext:self.managedObjectContext];
+            
+            NSManagedObject *ipadMO = [[NSManagedObject alloc] initWithEntity:productEntityDescription insertIntoManagedObjectContext:self.managedObjectContext];
+            [ipadMO setValue:@"iPad"  forKey:@"productName"];
+            [ipadMO setValue:@"ipad.jpg"  forKey:@"productImage"];
+            [ipadMO setValue:@"http://www.apple.com/ipad" forKey:@"productURL"];
+            [ipadMO setValue:@1 forKey:@"productOrder"];
+            [ipadMO setValue:@1 forKey:@"company_id"];
+            [ipadMO setValue:appleMO forKey:@"company"];
+
+            NSManagedObject *iphoneMO = [[NSManagedObject alloc] initWithEntity:productEntityDescription insertIntoManagedObjectContext:self.managedObjectContext];
+            [iphoneMO setValue:@"iPhone"  forKey:@"productName"];
+            [iphoneMO setValue:@"ipad.jpg"  forKey:@"productImage"];
+            [iphoneMO setValue:@"http://www.apple.com/iphone/" forKey:@"productURL"];
+            [iphoneMO setValue:@2 forKey:@"productOrder"];
+            [iphoneMO setValue:@1 forKey:@"company_id"];
+            [iphoneMO setValue:appleMO forKey:@"company"];
+
+            
+            NSManagedObject *iPodTouchMO = [[NSManagedObject alloc] initWithEntity:productEntityDescription insertIntoManagedObjectContext:self.managedObjectContext];
+            [iPodTouchMO setValue:@"iPod Touch"  forKey:@"productName"];
+            [iPodTouchMO setValue:@"ipodtouch.jpg"  forKey:@"productImage"];
+            [iPodTouchMO setValue:@"http://www.apple.com/ipod-touch/" forKey:@"productURL"];
+            [iPodTouchMO setValue:@3 forKey:@"productOrder"];
+            [iPodTouchMO setValue:@1 forKey:@"company_id"];
+            [iPodTouchMO setValue:appleMO forKey:@"company"];
+
+            
+            
+            NSManagedObject *galaxyS4 = [[NSManagedObject alloc] initWithEntity:productEntityDescription insertIntoManagedObjectContext:self.managedObjectContext];
+            
+            [galaxyS4 setValue:@"Galaxy S4" forKey:@"productName"];
+            [galaxyS4 setValue:@"galaxys4.jpg"  forKey:@"productImage"];
+            [galaxyS4 setValue:@"http://www.samsung.com/global/microsite/galaxys4/" forKey:@"productURL"];
+            [galaxyS4 setValue:@1 forKey:@"productOrder"];
+            [galaxyS4 setValue:@2 forKey:@"company_id"];
+            [galaxyS4 setValue:samsungMO forKey:@"company"];
+
+            
+            NSManagedObject *galaxyNote = [[NSManagedObject alloc] initWithEntity:productEntityDescription insertIntoManagedObjectContext:self.managedObjectContext];
+            
+            [galaxyNote setValue:@"Galaxy Note" forKey:@"productName"];
+            [galaxyNote setValue:@"galaxynote.jpg"  forKey:@"productImage"];
+            [galaxyNote setValue:@"http://www.samsung.com/global/microsite/galaxynote/note/index.html?type=find" forKey:@"productURL"];
+            [galaxyNote setValue:@2 forKey:@"productOrder"];
+            [galaxyNote setValue:@2 forKey:@"company_id"];
+            [galaxyNote setValue:samsungMO forKey:@"company"];
+
+
+            
+            NSManagedObject *galaxyTab = [[NSManagedObject alloc] initWithEntity:productEntityDescription insertIntoManagedObjectContext:self.managedObjectContext];
+            
+            [galaxyTab setValue:@"Galaxy Tab" forKey:@"productName"];
+            [galaxyTab setValue:@"galaxytab.jpg"  forKey:@"productImage"];
+            [galaxyTab setValue:@"http://www.samsung.com/us/mobile/galaxy-tab/" forKey:@"productURL"];
+            [galaxyTab setValue:@3 forKey:@"productOrder"];
+            [galaxyTab setValue:@2 forKey:@"company_id"];
+            [galaxyTab setValue:samsungMO forKey:@"company"];
+
+            
+            NSManagedObject *windows = [[NSManagedObject alloc] initWithEntity:productEntityDescription insertIntoManagedObjectContext:self.managedObjectContext];
+            
+            [windows setValue:@"Windows" forKey:@"productName"];
+            [windows setValue:@"windows.jpg"  forKey:@"productImage"];
+            [windows setValue:@"https://www.microsoft.com/en-us/windows/" forKey:@"productURL"];
+            [windows setValue:@1 forKey:@"productOrder"];
+            [windows setValue:@3 forKey:@"company_id"];
+            [windows setValue:microsoftMO forKey:@"company"];
+
+            
+            
+            NSManagedObject *office = [[NSManagedObject alloc] initWithEntity:productEntityDescription insertIntoManagedObjectContext:self.managedObjectContext];
+            
+            [office setValue:@"Office" forKey:@"productName"];
+            [office setValue:@"office.jpg"  forKey:@"productImage"];
+            [office setValue:@"https://products.office.com/en-us/home" forKey:@"productURL"];
+            [office setValue:@2 forKey:@"productOrder"];
+            [office setValue:@3 forKey:@"company_id"];
+            [office setValue:microsoftMO forKey:@"company"];
+
+            
+            NSManagedObject *lumia = [[NSManagedObject alloc] initWithEntity:productEntityDescription insertIntoManagedObjectContext:self.managedObjectContext];
+            
+            [lumia setValue:@"Lumia" forKey:@"productName"];
+            [lumia setValue:@"lumia.png"  forKey:@"productImage"];
+            [lumia setValue:@"https://www.microsoft.com/en-us/mobile/" forKey:@"productURL"];
+            [lumia setValue:@3 forKey:@"productOrder"];
+            [lumia setValue:@3 forKey:@"company_id"];
+            [lumia setValue:microsoftMO forKey:@"company"];
+
+            
+            NSManagedObject *inspiron = [[NSManagedObject alloc] initWithEntity:productEntityDescription insertIntoManagedObjectContext:self.managedObjectContext];
+            
+            [inspiron setValue:@"Inspiron" forKey:@"productName"];
+            [inspiron setValue:@"inspiron.jpg"  forKey:@"productImage"];
+            [inspiron setValue:@"http://www.dell.com/us/p/laptops/inspiron-laptops" forKey:@"productURL"];
+            [inspiron setValue:@1 forKey:@"productOrder"];
+            [inspiron setValue:@4 forKey:@"company_id"];
+            [inspiron setValue:dellMO forKey:@"company"];
+
+            
+            NSManagedObject *chromebook = [[NSManagedObject alloc] initWithEntity:productEntityDescription insertIntoManagedObjectContext:self.managedObjectContext];
+            
+            [chromebook setValue:@"Chromebook" forKey:@"productName"];
+            [chromebook setValue:@"chromebook.jpg"  forKey:@"productImage"];
+            [chromebook setValue:@"http://www.dell.com/us/business/p/chromebook-13-7310/pd?oc=ss0010c731013us&model_id=chromebook-13-7310" forKey:@"productURL"];
+            [chromebook setValue:@2 forKey:@"productOrder"];
+            [chromebook setValue:@4 forKey:@"company_id"];
+            [chromebook setValue:dellMO forKey:@"company"];
+
+            
+            NSManagedObject *venuePro = [[NSManagedObject alloc] initWithEntity:productEntityDescription insertIntoManagedObjectContext:self.managedObjectContext];
+            [venuePro setValue:@"Venue Pro" forKey:@"productName"];
+            [venuePro setValue:@"venuepro.jpg"  forKey:@"productImage"];
+            [venuePro setValue:@"http://www.dell.com/us/business/p/dell-venue-8-pro-5855-tablet/pd?oc=bto10005t58558usca&model_id=dell-venue-8-pro-5855-tablet&l=en&s=bsd" forKey:@"productURL"];
+            [venuePro setValue:@3 forKey:@"productOrder"];
+            [venuePro setValue:@4 forKey:@"company_id"];
+            [venuePro setValue:dellMO forKey:@"company"];
+
+            
+           [self.managedObjectContext save:nil];
+            [appleMO release];
+            [samsungMO release];
+            [dellMO release];
+            [microsoftMO release];
+            [ipadMO release];
+            [iphoneMO release];
+            [iPodTouchMO release];
+            [galaxyNote release];
+            [galaxyS4 release];
+            [galaxyTab release];
+            [windows release ];
+            [office release];
+            [lumia release];
+            [inspiron release];
+            [chromebook release];
+            [venuePro release];
+            
+            
+        } else {
+            
+            // Company and product mutable array
+            NSMutableArray *arr = [[NSMutableArray alloc] init];
+
+            
+            for (NSManagedObject *managedObject in result) {
+                NSLog(@"%@, %@ order %@", [managedObject valueForKey:@"name"], [managedObject valueForKey:@"logo"], [managedObject valueForKey:@"order"]);
                 
-                double productOrder = [[[self.arrResults objectAtIndex:p] objectAtIndex:1] doubleValue];
-                int productID = [[[self.arrResults objectAtIndex:p] objectAtIndex:0] intValue];
+                Company *company = [[Company alloc] initWithName:[managedObject valueForKey:@"name"] logo:[managedObject valueForKey:@"logo"] andStockSym:[managedObject valueForKey:@"stockSym"]];
+                [company setOrder:[[managedObject valueForKey:@"order"] doubleValue]];
+                [company setID:[[managedObject valueForKey:@"companyID"] intValue]];
                 
-                [product setProductID:productID];
-                [product setProductOrder:productOrder];
-                [productArr addObject:product];
+                NSSet *products = [managedObject valueForKey:@"products"];
                 
-                [product release];
+                NSSortDescriptor *positionSort = [NSSortDescriptor sortDescriptorWithKey:@"productOrder" ascending:YES];
                 
+                NSArray *children = [[products allObjects] sortedArrayUsingDescriptors:[NSArray arrayWithObject:positionSort]];
+                
+                
+                NSMutableArray *productArray = [[NSMutableArray alloc] init];
+
+                for (NSManagedObject *product in children) {
+                    
+                    Product *newProduct = [[Product alloc] initWithName:[product valueForKey:@"productName"] url:[product valueForKey:@"productURL"] andImage:[product valueForKey:@"productImage"]];
+                    [newProduct setCompanyID:[[product valueForKey:@"company_id"] intValue]];
+                    [newProduct setProductOrder:[[product valueForKey:@"productOrder"] doubleValue]];
+                    [productArray addObject:newProduct];
+                    [newProduct release];
+                    
+                }
+                
+                [company setProducts:productArray];
+                [arr addObject:company];
+                [productArray release];
+                [company release];
+
             }
-        
-            [company setProducts:productArr];
-            [productArr release];
-        
-            [arr addObject:company];
-            [company release];
-        
+            
+            self.companies = arr;
+            [arr release];
+
+
+        }
+    } else {
+        NSLog(@"Error fetching Company data.");
+        NSLog(@"%@, %@", fetchError, fetchError.localizedDescription);
     }
     
-    self.companies = arr;
-    [arr release];
-    
-    
+    [fetchRequest release];
+
+
 }
+
 
 -(void)executeQuery:(NSString *)query{
     // Run the query and indicate that is executable.
@@ -258,36 +485,83 @@
     double newCompOrder = 0;
     
     if ([self.companies objectAtIndex:self.companies.count - 1] >= 0) {
-        companyOrder = [[self.companies objectAtIndex:self.companies.count - 1] order];
+        companyOrder = [(Company*)[self.companies objectAtIndex:self.companies.count - 1] order];
         newCompOrder = companyOrder + 1.0;
     } else {
         newCompOrder = 1.0;
     }
+    
+    int maxCompID = 0;
+    
+    for (Company *company in self.companies) {
+        
+        if (company.ID > maxCompID) {
+            maxCompID = company.ID;
+        }
+        
+    }
+    
+    
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"CompanyMO" inManagedObjectContext:self.managedObjectContext];
+    
+    NSManagedObject *newComp = [[NSManagedObject alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:self.managedObjectContext];
+    
+    [newComp setValue:name  forKey:@"name"];
+    [newComp setValue:logo  forKey:@"logo"];
+    [newComp setValue:stockSym forKey:@"stockSym"];
+    [newComp setValue:[NSNumber numberWithDouble:newCompOrder] forKey:@"order"];
+    [newComp setValue:[NSNumber numberWithInt:maxCompID + 1] forKey:@"companyID"];
 
+    
+    [self.managedObjectContext save:nil];
+    
+    [self loadDataFromDB];
+    
+    [newComp release];
 
-    
-    NSString *query = [NSString stringWithFormat:@"insert into Company (companyName, companyLogo, stockSymbol, companyOrder) values ('%@','%@', '%@', '%f')", name, logo, stockSym, newCompOrder];
-    
-    [self executeQuery:query];
-    
-    Company *newCompany = [[Company alloc] initWithName:name logo:logo andStockSym:stockSym];
-    [newCompany setOrder:newCompOrder];
-    [self.companies addObject:newCompany];
-    
-    [newCompany release];
-    
     
 }
 
 -(void)editCompany:(NSString *)newName logo:(NSString *)logo andIndexPathRow:(NSInteger)indexPathRow andStockSymbol:(NSString *)stockSymbol
 {
-
-    int companyID = [[self.companies objectAtIndex:indexPathRow] ID];
     
-    NSString *query = [NSString stringWithFormat:@"update Company Set companyName='%@', companyLogo='%@', stockSymbol='%@' where ID=%d", newName, logo, stockSymbol, companyID];
+    // Fetching
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"CompanyMO"];
     
-    [self executeQuery:query];
+    // Add Sort Descriptor
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES];
+    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    
+    // Execute Fetch Request
+    NSError *fetchError = nil;
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    
+    if (!fetchError) {
+        
+        NSManagedObject *company = (NSManagedObject *)[result objectAtIndex:indexPathRow];
 
+        [company setValue:newName  forKey:@"name"];
+        [company setValue:logo  forKey:@"logo"];
+        [company setValue:stockSymbol forKey:@"stockSym"];
+
+        NSError *deleteError = nil;
+        
+        if (![company.managedObjectContext save:&deleteError]) {
+            NSLog(@"Unable to save managed object context.");
+            NSLog(@"%@, %@", deleteError, deleteError.localizedDescription);
+        }
+        
+        [self.managedObjectContext save:nil];
+        
+        
+    } else {
+        NSLog(@"Error fetching Company data.");
+        NSLog(@"%@, %@", fetchError, fetchError.localizedDescription);
+    }
+    
+    [self loadDataFromDB];
+    
+    [fetchRequest release];
 
 }
 -(void)createNewProduct:(NSString *)name andImage:(NSString *)image andURL:(NSString *)url forCurrentCompany:(Company *)currentCompany
@@ -303,22 +577,85 @@
         newProductOrder = 1.0;
     }
     
+//    // Fetching
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"ProductsMO"];
+//    
+//    // Create Predicate
+//    NSPredicate *companyPredicate = [NSPredicate predicateWithFormat:@"%@ == %@", @"company_id", currentCompany.ID];
+//    [fetchRequest setPredicate:companyPredicate];
+//    
+////    // Add Sort Descriptor
+////    NSSortDescriptor *sortDescriptor1 = [NSSortDescriptor sortDescriptorWithKey:@"last" ascending:YES];
+////    NSSortDescriptor *sortDescriptor2 = [NSSortDescriptor sortDescriptorWithKey:@"age" ascending:YES];
+////    [fetchRequest setSortDescriptors:@[sortDescriptor1, sortDescriptor2]];
+//    
+//    // Execute Fetch Request
+//    NSError *fetchError = nil;
+//    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+//    
+//    if (!fetchError) {
+//        for (NSManagedObject *managedObject in result) {
+//            NSLog(@"%@, %@", [managedObject valueForKey:@"productName"], [managedObject valueForKey:@"company_id"]);
+//        }
+//        
+//    } else {
+//        NSLog(@"Error fetching data.");
+//        NSLog(@"%@, %@", fetchError, fetchError.localizedDescription);
+//    }
+//    
     
-    int companyID = currentCompany.ID;
+//    CompanyMO *companyInfo = [result objectAtIndex:0];
     
     
-    NSString *query = [NSString stringWithFormat:@"insert into Products (productName, productImage, productURL, productOrder, company_id) values ('%@','%@', '%@', '%f', %d)", name, image, url, newProductOrder, companyID];
-    
-    [self executeQuery:query];
-    
-    Product *newProduct = [[Product alloc] initWithName:name url:url andImage:image];
-    [newProduct setProductOrder:newProductOrder];
-    [newProduct setProductID:[currentCompany ID]];
-    
-    [[currentCompany products] addObject:newProduct];
-    
-    [newProduct release];
 
+    
+    int compID = currentCompany.ID;
+    
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"CompanyMO"];
+    
+    // Create Predicate
+    NSPredicate *companyPredicate = [NSPredicate predicateWithFormat:@"companyID = %d", currentCompany.ID];
+    [fetchRequest setPredicate:companyPredicate];
+    
+    // Execute Fetch Request
+    NSError *fetchError = nil;
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+
+    
+    
+    CompanyMO *companyMO = [result objectAtIndex:0];
+    
+    
+    NSEntityDescription *productEntityDescription = [NSEntityDescription entityForName:@"ProductsMO" inManagedObjectContext:self.managedObjectContext];
+    
+    NSManagedObject *newProd = [[NSManagedObject alloc] initWithEntity:productEntityDescription insertIntoManagedObjectContext:self.managedObjectContext];
+    [newProd setValue:name forKey:@"productName"];
+    [newProd setValue:image  forKey:@"productImage"];
+    [newProd setValue:url forKey:@"productURL"];
+    [newProd setValue:[NSNumber numberWithDouble:newProductOrder] forKey:@"productOrder"];
+    [newProd setValue:[NSNumber numberWithInt:compID] forKey:@"company_id"];
+    [newProd setValue:companyMO forKey:@"company"];
+
+    
+    [self.managedObjectContext save:nil];
+    [self loadDataFromDB];
+    
+    
+//    int companyID = currentCompany.ID;
+//
+//    
+//    NSString *query = [NSString stringWithFormat:@"insert into Products (productName, productImage, productURL, productOrder, company_id) values ('%@','%@', '%@', '%f', %d)", name, image, url, newProductOrder, companyID];
+//    
+//    [self executeQuery:query];
+//    
+//    Product *newProduct = [[Product alloc] initWithName:name url:url andImage:image];
+//    [newProduct setProductOrder:newProductOrder];
+//    [newProduct setProductID:[currentCompany ID]];
+//    
+//    [[currentCompany products] addObject:newProduct];
+//    
+//    [newProduct release];
 
 
 }
@@ -344,31 +681,50 @@
 }
 
 
--(void)deleteCompany:(int)ID
+-(void)deleteCompany:(NSInteger)indexPathRow
 {
-    // Prepare the query.
-    NSString *query = [NSString stringWithFormat:@"delete from Company where ID=%d", ID];
+
     
-    // Execute the query.
-    [self executeQuery:query];
+    [self.companies removeObjectAtIndex:indexPathRow];
     
-    for (Company *company in self.companies) {
-        if (company.ID  == ID) {
-            [self.companies removeObject:company];
-            break;
+    
+    // Fetching
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"CompanyMO"];
+    
+    // Add Sort Descriptor
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES];
+    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    
+    // Execute Fetch Request
+    NSError *fetchError = nil;
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    
+    if (!fetchError) {
+        
+        NSManagedObject *company = (NSManagedObject *)[result objectAtIndex:indexPathRow];
+        
+        [self.managedObjectContext deleteObject:company];
+        
+        NSError *deleteError = nil;
+        
+        if (![company.managedObjectContext save:&deleteError]) {
+            NSLog(@"Unable to save managed object context.");
+            NSLog(@"%@, %@", deleteError, deleteError.localizedDescription);
         }
+        
+        [self.managedObjectContext save:nil];
+        
+        
+    } else {
+        NSLog(@"Error fetching Company data.");
+        NSLog(@"%@, %@", fetchError, fetchError.localizedDescription);
     }
+    
+    [fetchRequest release];
+
 }
 
--(void)moveCompany:(double)companyOrder andID:(int)companyID
-{
-    NSString *query = [NSString stringWithFormat:@"update Company Set companyOrder=%f where id =%d",companyOrder, companyID];
-    
-    [self executeQuery:query];
-    
-    [self loadDataFromDB];
-    
-}
+
 
 -(void)moveCompany:(int)companyID toIndexPathRow:(NSInteger )toIndexPathRow fromIndexPathRow:(NSInteger)fromIndexPathRow
 {
@@ -379,7 +735,8 @@
     
     if (toIndexPathRow == 0) {
         if ([self.companies objectAtIndex:toIndexPathRow]) {
-            orderAfter = [[self.companies objectAtIndex:toIndexPathRow] order];
+            
+            orderAfter = [(Company*)[self.companies objectAtIndex:toIndexPathRow] order];
         } else {
             return;
         }
@@ -387,19 +744,19 @@
     } else {
         
         if (toIndexPathRow == orderAfter) {
-            orderBefore = [[self.companies objectAtIndex:toIndexPathRow] order];
+            orderBefore = [(Company*)[self.companies objectAtIndex:toIndexPathRow] order];
             orderAfter = orderBefore + 1.0;
             
         } else {
             
             if (toIndexPathRow > fromIndexPathRow) {
-                orderBefore = [[self.companies objectAtIndex:toIndexPathRow] order];
-                orderAfter = [[self.companies objectAtIndex:toIndexPathRow + 1] order];
+                orderBefore = [(Company*)[self.companies objectAtIndex:toIndexPathRow] order];
+                orderAfter = [(Company*)[self.companies objectAtIndex:toIndexPathRow + 1] order];
                 
             } else {
                 
-                orderBefore = [[self.companies objectAtIndex:toIndexPathRow - 1] order];
-                orderAfter = [[self.companies objectAtIndex:toIndexPathRow] order];
+                orderBefore = [(Company*)[self.companies objectAtIndex:toIndexPathRow - 1] order];
+                orderAfter = [(Company*)[self.companies objectAtIndex:toIndexPathRow] order];
                 
             }
             
@@ -407,21 +764,59 @@
         
     }
     
-    double orderQuery = ((orderBefore + orderAfter) / 2);    
-    NSString *query = [NSString stringWithFormat:@"update Company Set companyOrder=%f where id =%d",orderQuery, companyID];
-    [self executeQuery:query];
-    [self loadDataFromDB];
+    double orderQuery = ((orderBefore + orderAfter) / 2);
+    
+
+    // Fetching
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"CompanyMO"];
+    
+    // Add Sort Descriptor
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES];
+    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    
+    // Execute Fetch Request
+    NSError *fetchError = nil;
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    
+    if (!fetchError) {
+        
+        NSManagedObject *company = (NSManagedObject *)[result objectAtIndex:fromIndexPathRow];
+        
+        [company setValue:[NSNumber numberWithDouble:orderQuery] forKey:@"order"];
+        
+        NSError *deleteError = nil;
+        
+        if (![company.managedObjectContext save:&deleteError]) {
+            NSLog(@"Unable to save managed object context.");
+            NSLog(@"%@, %@", deleteError, deleteError.localizedDescription);
+        }
+        
+        [self.managedObjectContext save:nil];
+        
+        
+    } else {
+        NSLog(@"Error fetching Company data.");
+        NSLog(@"%@, %@", fetchError, fetchError.localizedDescription);
+    }
+    
+      [self loadDataFromDB];
+        [fetchRequest release];
+
     
 }
 
 -(void)deleteProduct:(int)productID
 {
+
+
     
-    // Prepare the query.
-    NSString *query = [NSString stringWithFormat:@"delete from Products where id=%d", productID];
     
-    // Execute the query.
-    [self executeQuery:query];
+    
+//    // Prepare the query.
+//    NSString *query = [NSString stringWithFormat:@"delete from Products where id=%d", productID];
+//    
+//    // Execute the query.
+//    [self executeQuery:query];
 
 }
 

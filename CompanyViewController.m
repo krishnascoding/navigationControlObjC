@@ -195,8 +195,8 @@
         // Delete the row from the data source
         // Delete the selected record
         // Find the record ID
-        int recordToDelete = [[self.dao.companies objectAtIndex:indexPath.row] ID];
-        [self.dao deleteCompany:recordToDelete];
+//        int recordToDelete = [[self.dao.companies objectAtIndex:indexPath.row] ID];
+        [self.dao deleteCompany:indexPath.row];
         
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {

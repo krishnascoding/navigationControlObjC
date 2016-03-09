@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "Company.h"
 #import "Product.h"
+#import <CoreData/CoreData.h>
+
+@import CoreData;
 
 @interface DAO : NSObject
 
@@ -32,10 +35,17 @@
 -(void)editProduct:(NSString *)name andImage:(NSString *)image andURL:(NSString *)url forCurrentCompany:(Company*)currentCompany atIndexPathRow:(NSInteger)indexPathRow;
 
 //
--(void)deleteCompany:(int)ID;
--(void)moveCompany:(double)companyOrder andID:(int)companyID;
+-(void)deleteCompany:(NSInteger)indexPathRow;
 -(void)moveCompany:(int)companyID toIndexPathRow:(NSInteger)toIndexPathRow fromIndexPathRow:(NSInteger)fromIndexPathRow;
 -(void)deleteProduct:(int)productID;
+
+// CoreData managed object and initmethod
+
+@property (strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) NSMutableArray *moArray;
+
+
+- (void)initializeCoreData;
 
 
 @end
