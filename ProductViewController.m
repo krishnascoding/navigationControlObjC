@@ -36,8 +36,21 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
 //    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addItem:)];
-    self.navigationItem.rightBarButtonItem = addButton;
+   // self.navigationItem.leftBarButtonItem = addButton;
+    
+    // Create the refresh, fixed-space (optional), and profile buttons.
+    UIBarButtonItem *undoBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemUndo target:self action:@selector(undo)];
+    
+    UIBarButtonItem *saveBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(save)];
+    saveBarButtonItem.style = UIBarButtonItemStyleBordered;
+    
+    //    UIBarButtonItem *editBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(edit)];
+    
+    self.navigationItem.rightBarButtonItems = @[addButton, saveBarButtonItem, undoBarButtonItem];
+    
+    
     
     self.dao = [DAO sharedDAO];
     AddProductViewController* __addProductVC = [[AddProductViewController alloc] initWithNibName:@"AddProductViewController" bundle:nil];
@@ -51,7 +64,26 @@
     
     [super viewWillAppear:animated];
     
+    self.currentCompany = self.dao.companies[self.currentComp];
+
+    
     [self.tableView reloadData];
+}
+-(void)save
+{
+    [self.dao saveContext];
+    self.currentCompany = self.dao.companies[self.currentComp];
+
+    [self.tableView reloadData];
+    
+}
+-(void)undo
+{
+    [self.dao undoContext];
+    self.currentCompany = self.dao.companies[self.currentComp];
+
+    [self.tableView reloadData];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -65,6 +97,8 @@
     [self.addProductVC setTitle:@"Add Product"];
     [self.addProductVC setCurrentCompany:self.currentCompany];
     [self.navigationController pushViewController:self.addProductVC animated:YES];
+    
+    [self.tableView reloadData];
     
 }
 
@@ -125,6 +159,7 @@
         self.addProductVC.title = @"Edit Product";
         self.addProductVC.indexPathRow = indexPath.row;
         self.addProductVC.currentCompany = self.currentCompany;
+        self.addProductVC.currentProduct = [self.currentCompany.products objectAtIndex:indexPath.row];
         
         [self.navigationController pushViewController:self.addProductVC animated:YES];
         
@@ -152,8 +187,8 @@
         
         // Delete the selected record.
         // Find the record ID.l
-        int recordToDelete = [[self.currentCompany.products objectAtIndex:indexPath.row] productID];
-        [self.dao deleteProduct:recordToDelete];
+//        int recordToDelete = [[self.currentCompany.products objectAtIndex:indexPath.row] productID];
+        [self.dao deleteProductWithCurrentCompany:self.currentCompany atIndex:indexPath.row];
         [self.currentCompany.products removeObjectAtIndex:indexPath.row];
         
     }

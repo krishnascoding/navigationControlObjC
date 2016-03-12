@@ -23,24 +23,14 @@
     
     self.navigationItem.rightBarButtonItem = saveButton;
     
-    if ([self.title  isEqual: @"Edit Product"]) {
-        
-        Product *product = [self.currentCompany.products objectAtIndex:self.indexPathRow];
-        
-        self.productName.text = [product productName];
-        self.productLogo.text = [product productImage];
-        self.productURL.text = [product productURL];
-    
-    }
-
-}
+ }
 
 -(void)saveItems
 {
     
     if ([self.title  isEqual: @"Edit Product"]) {
         
-        [[DAO sharedDAO] editProduct:self.productName.text andImage:self.productLogo.text andURL:self.productURL.text forCurrentCompany:self.currentCompany atIndexPathRow:self.indexPathRow];
+        [[DAO sharedDAO] editProduct:self.productName.text andImage:self.productLogo.text andURL:self.productURL.text forCurrentCompany:self.currentCompany atIndexPathRow:self.indexPathRow andProduct:self.currentProduct];
                 
     }
     else {
@@ -50,6 +40,29 @@
     }
     
     [self.navigationController popViewControllerAnimated:YES];
+
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    
+    if ([self.title  isEqual: @"Edit Product"]) {
+        
+        //        Product *product = [self.currentCompany.products objectAtIndex:self.indexPathRow];
+        Product *product = self.currentProduct;
+        
+        
+        self.productName.text = [product productName];
+        self.productLogo.text = [product productImage];
+        self.productURL.text = [product productURL];
+        
+    } else {
+        self.productName.text = @"";
+        self.productLogo.text = @"";
+        self.productURL.text = @"";
+        
+    }
     
 }
 

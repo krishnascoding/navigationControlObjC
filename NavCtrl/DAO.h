@@ -22,7 +22,6 @@
 
 -(instancetype)initWithDatabase;
 -(void)loadDataFromDB;
--(void)executeQuery:(NSString *)query;
 
 // DAO methods and property
 @property(nonatomic, retain) NSMutableArray *companies;
@@ -32,12 +31,13 @@
 -(void)createNewCompany:(NSString *)name andLogo:(NSString *)logo andStockSym:(NSString *)stockSym;
 -(void)editCompany:(NSString *)newName logo:(NSString *)logo andIndexPathRow:(NSInteger)indexPathRow andStockSymbol:(NSString *)stockSymbol;
 -(void)createNewProduct:(NSString *)name andImage:(NSString *)image andURL:(NSString *)url forCurrentCompany:(Company*)currentCompany;
--(void)editProduct:(NSString *)name andImage:(NSString *)image andURL:(NSString *)url forCurrentCompany:(Company*)currentCompany atIndexPathRow:(NSInteger)indexPathRow;
+-(void)editProduct:(NSString *)name andImage:(NSString *)image andURL:(NSString *)url forCurrentCompany:(Company*)currentCompany atIndexPathRow:(NSInteger)indexPathRow andProduct:(Product *)product;
 
 //
 -(void)deleteCompany:(NSInteger)indexPathRow;
 -(void)moveCompany:(int)companyID toIndexPathRow:(NSInteger)toIndexPathRow fromIndexPathRow:(NSInteger)fromIndexPathRow;
--(void)deleteProduct:(int)productID;
+-(void)deleteProductWithCurrentCompany:(Company *)currentCompany atIndex:(NSInteger)indexPathRow;
+;
 
 // CoreData managed object and initmethod
 
@@ -46,6 +46,10 @@
 
 
 - (void)initializeCoreData;
+
+// undo and save
+-(void)saveContext;
+-(void)undoContext;
 
 
 @end

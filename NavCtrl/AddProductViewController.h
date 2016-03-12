@@ -14,6 +14,7 @@
 @property (retain, nonatomic) IBOutlet UITextField *productLogo;
 @property (retain, nonatomic) IBOutlet UITextField *productURL;
 @property (nonatomic, retain) Company *currentCompany;
+@property (nonatomic, retain) Product *currentProduct;
 @property (nonatomic) NSInteger indexPathRow;
 
 @end

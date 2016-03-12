@@ -29,27 +29,37 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     // Uncomment the following line to preserve selection between presentations.
-     self.clearsSelectionOnViewWillAppear = NO;
- 
+    self.clearsSelectionOnViewWillAppear = NO;
+    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addItem:)];
     self.navigationItem.leftBarButtonItem = addButton;
     
+    // Create the refresh, fixed-space (optional), and profile buttons.
+    UIBarButtonItem *undoBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemUndo target:self action:@selector(undo)];
+    
+    UIBarButtonItem *saveBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(save)];
+    saveBarButtonItem.style = UIBarButtonItemStyleBordered;
+    
+//    UIBarButtonItem *editBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(edit)];
+    
+    self.navigationItem.leftBarButtonItems = @[addButton, saveBarButtonItem, undoBarButtonItem];
+    
     self.title = @"Mobile device makers";
     
     self.dao = [DAO sharedDAO];
     [self.dao loadDataFromDB];
-
+    
     
     AddEditViewController *__addEditVC = [[AddEditViewController alloc] initWithNibName:@"AddEditViewController" bundle:nil];
-
+    
     self.addEditVC = __addEditVC;
     [__addEditVC release];
     
-
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,10 +68,23 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)save
+{
+    [self.dao saveContext];
+    [self.tableView reloadData];
+
+}
+-(void)undo
+{
+    [self.dao undoContext];
+    [self.tableView reloadData];
+
+}
+
 -(void)addItem:(id)sender
 {
- 
-//    self.addEditVC = [[AddEditViewController alloc] initWithNibName:@"AddEditViewController" bundle:nil];
+    
+    //    self.addEditVC = [[AddEditViewController alloc] initWithNibName:@"AddEditViewController" bundle:nil];
     self.addEditVC.title = @"Add Company";
     
     [self.navigationController pushViewController:self.addEditVC animated:YES];
@@ -71,14 +94,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-//#warning Potentially incomplete method implementation.
+    //#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//#warning Incomplete method implementation.
+    //#warning Incomplete method implementation.
     // Return the number of rows in the section.
     return [self.dao.companies count];
 }
@@ -94,7 +117,7 @@
     // Configure the cell...
     
     Company *company = [self.dao.companies objectAtIndex: indexPath.row];
-       
+    
     cell.textLabel.text =  company.name;
     cell.imageView.image = [UIImage imageNamed: company.logo];
     cell.detailTextLabel.text = [[self.dao.companies objectAtIndex:indexPath.row] stockPrice];
@@ -108,9 +131,9 @@
     
     self.productViewController.currentCompany = nil;
     
-//    [self.dao loadDataFromDB];
+    //    [self.dao loadDataFromDB];
     
-//    
+    //
     __unused NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(updateStockPrice) userInfo:nil repeats:YES];
     [timer fire];
     [self.tableView reloadData];
@@ -119,7 +142,7 @@
 
 -(void)updateStockPrice
 {
-//    NSString *stockURL = @"http://finance.yahoo.com/d/quotes.csv?s=AAPL+jh+MSFT+GOOG&f=l1";
+    //    NSString *stockURL = @"http://finance.yahoo.com/d/quotes.csv?s=AAPL+jh+MSFT+GOOG&f=l1";
     
     NSMutableString *baseURL = [[NSMutableString alloc ] initWithString: @"http://finance.yahoo.com/d/quotes.csv?s="];
     
@@ -131,18 +154,18 @@
             
             [baseURL appendString:[NSString stringWithFormat:@"%@+", @"xyda"]];
             
-          //  baseURL = (NSMutableString*)[NSString stringWithFormat:@"%@%@+", baseURL,@"xyda"];
+            //  baseURL = (NSMutableString*)[NSString stringWithFormat:@"%@%@+", baseURL,@"xyda"];
             
         } else {
             [baseURL appendString:[NSString stringWithFormat:@"%@+", stock]];
-        
-        //baseURL = (NSMutableString*)[NSString stringWithFormat:@"%@%@+", baseURL,stock];
+            
+            //baseURL = (NSMutableString*)[NSString stringWithFormat:@"%@%@+", baseURL,stock];
         }
         
     }
     [baseURL appendString:@"@&f=l1"];
     //baseURL = (NSMutableString *)[NSString stringWithFormat:@"%@&f=l1", baseURL];
-
+    
     NSURLSession *session = [NSURLSession sharedSession];
     
     [[session dataTaskWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:baseURL]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -157,25 +180,25 @@
             //[self.stockPrices addObject:row];
             [[self.dao.companies objectAtIndex:i] setStockPrice:row];
             i++;
-         }
-//        
-//        for (int i = 0; i < self.stockPrices.count; i++) {
-//            
-//            [[self.dao.companies objectAtIndex:i] setStockPrice:self.stockPrices[i]];
-//            
-//        }
-//        
-//        NSLog(@"%@", self.stockPrices);
+        }
+        //
+        //        for (int i = 0; i < self.stockPrices.count; i++) {
+        //
+        //            [[self.dao.companies objectAtIndex:i] setStockPrice:self.stockPrices[i]];
+        //
+        //        }
+        //
+        //        NSLog(@"%@", self.stockPrices);
         
         
         [self.tableView performSelectorOnMainThread:@selector(reloadData)
                                          withObject:nil
                                       waitUntilDone:NO];
-
+        
     }] resume];
     [baseURL release];
     
-//    [self.stockPrices release];
+    //    [self.stockPrices release];
 }
 
 // Override to support conditional editing of the table view.
@@ -195,7 +218,7 @@
         // Delete the row from the data source
         // Delete the selected record
         // Find the record ID
-//        int recordToDelete = [[self.dao.companies objectAtIndex:indexPath.row] ID];
+        //        int recordToDelete = [[self.dao.companies objectAtIndex:indexPath.row] ID];
         [self.dao deleteCompany:indexPath.row];
         
     }
@@ -214,7 +237,7 @@
     [self.dao moveCompany:companyID toIndexPathRow:toIndexPath.row fromIndexPathRow:fromIndexPath.row];
     
     [tableView reloadData];
-
+    
 }
 
 
@@ -233,7 +256,7 @@
 {
     
     if (tableView.editing == YES) {
-//        self.addEditVC = [[AddEditViewController alloc] initWithNibName:@"AddEditViewController" bundle:nil];
+        //        self.addEditVC = [[AddEditViewController alloc] initWithNibName:@"AddEditViewController" bundle:nil];
         self.addEditVC.title = @"Edit Company";
         self.addEditVC.indexPathRow = indexPath.row;
         
@@ -241,14 +264,14 @@
         return;
     }
     
+    
     self.productViewController.title = [self.dao.companies[indexPath.row] name];
-    id c = self.dao.companies[indexPath.row];
-    self.productViewController.currentCompany = c;
-      self.productViewController.currentComp = indexPath.row;
+    self.productViewController.currentComp = indexPath.row;
+    self.productViewController.currentCompany = self.dao.companies[indexPath.row];
     
     [self.navigationController
-        pushViewController:self.productViewController
-        animated:YES];
+     pushViewController:self.productViewController
+     animated:YES];
 }
 
 
