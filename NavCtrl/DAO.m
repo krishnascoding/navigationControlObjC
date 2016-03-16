@@ -66,7 +66,7 @@
         NSAssert(store != nil, @"Error initializing PSC: %@\n%@", [error localizedDescription], [error userInfo]);
     });
     
-    self.managedObjectContext.undoManager = [[NSUndoManager alloc] init];
+    self.managedObjectContext.undoManager = [[[NSUndoManager alloc] init] autorelease];
 
     [self loadDataFromDB];
     [psc release];

@@ -23,6 +23,8 @@
 		48A656E718163C1B00746D36 /* CompanyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48A656E518163C1B00746D36 /* CompanyViewController.xib */; };
 		48A656EB18163F8700746D36 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A656E918163F8700746D36 /* ProductViewController.m */; };
 		48A656EE1816468000746D36 /* Sunflower.gif in Resources */ = {isa = PBXBuildFile; fileRef = 48A656ED1816468000746D36 /* Sunflower.gif */; };
+		6B6CF41E1C97221800E97B70 /* CompanyCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6CF41C1C97221800E97B70 /* CompanyCollectionViewController.m */; };
+		6B6CF41F1C97221800E97B70 /* CompanyCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B6CF41D1C97221800E97B70 /* CompanyCollectionViewController.xib */; };
 		6B7F197A1C7F865900041AB8 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B7F19791C7F865900041AB8 /* libsqlite3.tbd */; };
 		6B7F197C1C7F8B5700041AB8 /* NavCtrl.db in Resources */ = {isa = PBXBuildFile; fileRef = 6B7F197B1C7F8B5700041AB8 /* NavCtrl.db */; };
 		6B7F197E1C8A2DCF00041AB8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B7F197D1C8A2DCF00041AB8 /* CoreData.framework */; };
@@ -31,6 +33,21 @@
 		6B9A49621C8DFD650072D788 /* ProductsMO+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B9A495D1C8DFD650072D788 /* ProductsMO+CoreDataProperties.m */; };
 		6B9A49631C8DFD650072D788 /* CompanyMO+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B9A495F1C8DFD650072D788 /* CompanyMO+CoreDataProperties.m */; };
 		6B9A49641C8DFD650072D788 /* CompanyMO.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B9A49611C8DFD650072D788 /* CompanyMO.m */; };
+		6BBE0CD91C97447D00CE5257 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBE0CD71C97447D00CE5257 /* CollectionViewCell.m */; };
+		6BBE0CDA1C97447D00CE5257 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BBE0CD81C97447D00CE5257 /* CollectionViewCell.xib */; };
+		6BBE0CDD1C987B4A00CE5257 /* x-mark.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BBE0CDC1C987B4A00CE5257 /* x-mark.png */; };
+		6BBE0CE11C98A0C700CE5257 /* ProductCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBE0CDF1C98A0C700CE5257 /* ProductCollectionViewController.m */; };
+		6BBE0CE21C98A0C700CE5257 /* ProductCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BBE0CE01C98A0C700CE5257 /* ProductCollectionViewController.xib */; };
+		6BBE0CE71C98A86D00CE5257 /* ProductCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBE0CE51C98A86D00CE5257 /* ProductCollectionViewCell.m */; };
+		6BBE0CE81C98A86D00CE5257 /* ProductCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BBE0CE61C98A86D00CE5257 /* ProductCollectionViewCell.xib */; };
+		6BBE0CEB1C99227200CE5257 /* AFNetworking in Resources */ = {isa = PBXBuildFile; fileRef = 6BBE0CEA1C99227200CE5257 /* AFNetworking */; };
+		6BBE0CED1C99228100CE5257 /* UIKit+AFNetworking in Resources */ = {isa = PBXBuildFile; fileRef = 6BBE0CEC1C99228100CE5257 /* UIKit+AFNetworking */; };
+		6BBE0CFC1C99C7C400CE5257 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBE0CF01C99C7C400CE5257 /* AFHTTPSessionManager.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		6BBE0CFD1C99C7C400CE5257 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBE0CF31C99C7C400CE5257 /* AFNetworkReachabilityManager.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		6BBE0CFE1C99C7C400CE5257 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBE0CF51C99C7C400CE5257 /* AFSecurityPolicy.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		6BBE0CFF1C99C7C400CE5257 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBE0CF71C99C7C400CE5257 /* AFURLRequestSerialization.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		6BBE0D001C99C7C400CE5257 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBE0CF91C99C7C400CE5257 /* AFURLResponseSerialization.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		6BBE0D011C99C7C400CE5257 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBE0CFB1C99C7C400CE5257 /* AFURLSessionManager.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		6BD13C931C764493009975E5 /* AddProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD13C921C764493009975E5 /* AddProductViewController.m */; };
 		6BD13C961C7644DC009975E5 /* AddProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BD13C951C7644DC009975E5 /* AddProductViewController.xib */; };
 		6BDBE9191C6E83C500619E4D /* Company.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDBE9181C6E83C500619E4D /* Company.m */; };
@@ -91,6 +108,9 @@
 		48A656E818163F8700746D36 /* ProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProductViewController.h; path = ../ProductViewController.h; sourceTree = "<group>"; };
 		48A656E918163F8700746D36 /* ProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProductViewController.m; path = ../ProductViewController.m; sourceTree = "<group>"; };
 		48A656ED1816468000746D36 /* Sunflower.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Sunflower.gif; sourceTree = "<group>"; };
+		6B6CF41B1C97221800E97B70 /* CompanyCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompanyCollectionViewController.h; sourceTree = "<group>"; };
+		6B6CF41C1C97221800E97B70 /* CompanyCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanyCollectionViewController.m; sourceTree = "<group>"; };
+		6B6CF41D1C97221800E97B70 /* CompanyCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CompanyCollectionViewController.xib; sourceTree = "<group>"; };
 		6B7F19791C7F865900041AB8 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		6B7F197B1C7F8B5700041AB8 /* NavCtrl.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = NavCtrl.db; sourceTree = SOURCE_ROOT; };
 		6B7F197D1C8A2DCF00041AB8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -103,6 +123,31 @@
 		6B9A495F1C8DFD650072D788 /* CompanyMO+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CompanyMO+CoreDataProperties.m"; path = "../CompanyMO+CoreDataProperties.m"; sourceTree = "<group>"; };
 		6B9A49601C8DFD650072D788 /* CompanyMO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CompanyMO.h; path = ../CompanyMO.h; sourceTree = "<group>"; };
 		6B9A49611C8DFD650072D788 /* CompanyMO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CompanyMO.m; path = ../CompanyMO.m; sourceTree = "<group>"; };
+		6BBE0CD61C97447D00CE5257 /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
+		6BBE0CD71C97447D00CE5257 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
+		6BBE0CD81C97447D00CE5257 /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
+		6BBE0CDC1C987B4A00CE5257 /* x-mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x-mark.png"; sourceTree = "<group>"; };
+		6BBE0CDE1C98A0C700CE5257 /* ProductCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductCollectionViewController.h; sourceTree = "<group>"; };
+		6BBE0CDF1C98A0C700CE5257 /* ProductCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductCollectionViewController.m; sourceTree = "<group>"; };
+		6BBE0CE01C98A0C700CE5257 /* ProductCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCollectionViewController.xib; sourceTree = "<group>"; };
+		6BBE0CE41C98A86D00CE5257 /* ProductCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductCollectionViewCell.h; sourceTree = "<group>"; };
+		6BBE0CE51C98A86D00CE5257 /* ProductCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductCollectionViewCell.m; sourceTree = "<group>"; };
+		6BBE0CE61C98A86D00CE5257 /* ProductCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCollectionViewCell.xib; sourceTree = "<group>"; };
+		6BBE0CEA1C99227200CE5257 /* AFNetworking */ = {isa = PBXFileReference; lastKnownFileType = folder; path = AFNetworking; sourceTree = "<group>"; };
+		6BBE0CEC1C99228100CE5257 /* UIKit+AFNetworking */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "UIKit+AFNetworking"; sourceTree = "<group>"; };
+		6BBE0CEF1C99C7C400CE5257 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
+		6BBE0CF01C99C7C400CE5257 /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
+		6BBE0CF11C99C7C400CE5257 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
+		6BBE0CF21C99C7C400CE5257 /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
+		6BBE0CF31C99C7C400CE5257 /* AFNetworkReachabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkReachabilityManager.m; sourceTree = "<group>"; };
+		6BBE0CF41C99C7C400CE5257 /* AFSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFSecurityPolicy.h; sourceTree = "<group>"; };
+		6BBE0CF51C99C7C400CE5257 /* AFSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSecurityPolicy.m; sourceTree = "<group>"; };
+		6BBE0CF61C99C7C400CE5257 /* AFURLRequestSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLRequestSerialization.h; sourceTree = "<group>"; };
+		6BBE0CF71C99C7C400CE5257 /* AFURLRequestSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLRequestSerialization.m; sourceTree = "<group>"; };
+		6BBE0CF81C99C7C400CE5257 /* AFURLResponseSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLResponseSerialization.h; sourceTree = "<group>"; };
+		6BBE0CF91C99C7C400CE5257 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
+		6BBE0CFA1C99C7C400CE5257 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
+		6BBE0CFB1C99C7C400CE5257 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
 		6BD13C911C764493009975E5 /* AddProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddProductViewController.h; sourceTree = "<group>"; };
 		6BD13C921C764493009975E5 /* AddProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddProductViewController.m; sourceTree = "<group>"; };
 		6BD13C951C7644DC009975E5 /* AddProductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProductViewController.xib; sourceTree = "<group>"; };
@@ -172,13 +217,13 @@
 			name = AppDelegate;
 			sourceTree = "<group>";
 		};
-		483796CC1BCBF7C70062D5AB /* ParentViewController */ = {
+		483796CC1BCBF7C70062D5AB /* CompanyViewController */ = {
 			isa = PBXGroup;
 			children = (
 				48A656E318163C1B00746D36 /* CompanyViewController.h */,
 				48A656E418163C1B00746D36 /* CompanyViewController.m */,
 			);
-			name = ParentViewController;
+			name = CompanyViewController;
 			sourceTree = "<group>";
 		};
 		483796CD1BCBF7EB0062D5AB /* ProductViewController */ = {
@@ -193,6 +238,9 @@
 		48A656A818163BF200746D36 = {
 			isa = PBXGroup;
 			children = (
+				6BBE0CEC1C99228100CE5257 /* UIKit+AFNetworking */,
+				6BBE0CEA1C99227200CE5257 /* AFNetworking */,
+				6BBE0CEE1C99C7B200CE5257 /* AFNetworking */,
 				6BDBE9E71C74E51400619E4D /* AddEditCompanyVC */,
 				48A656BA18163BF200746D36 /* NavCtrl */,
 				48A656D318163BF200746D36 /* NavCtrlTests */,
@@ -233,7 +281,11 @@
 				483796CB1BCBF7A00062D5AB /* AppDelegate */,
 				6BDBE91B1C6E83FA00619E4D /* Product */,
 				6BDBE91A1C6E83E600619E4D /* Company */,
-				483796CC1BCBF7C70062D5AB /* ParentViewController */,
+				6BBE0CDB1C9744AD00CE5257 /* Custom Cell */,
+				6B6CF4201C97225F00E97B70 /* Company Collection View */,
+				483796CC1BCBF7C70062D5AB /* CompanyViewController */,
+				6BBE0CE91C98A87900CE5257 /* ProductCollectionViewCell */,
+				6BBE0CE31C98A0CE00CE5257 /* Product Collection View */,
 				483796CD1BCBF7EB0062D5AB /* ProductViewController */,
 				6BD13C941C76449B009975E5 /* AddProductVC */,
 				6BE744541C6D4A020026B08C /* MyWebView */,
@@ -248,6 +300,7 @@
 		48A656BB18163BF200746D36 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6BBE0CDC1C987B4A00CE5257 /* x-mark.png */,
 				6BE744491C6D372D0026B08C /* delllogo.jpg */,
 				6BE7444B1C6D37380026B08C /* microsoftlogo.png */,
 				6BE7444F1C6D37440026B08C /* appleimage.jpg */,
@@ -279,6 +332,16 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		6B6CF4201C97225F00E97B70 /* Company Collection View */ = {
+			isa = PBXGroup;
+			children = (
+				6B6CF41B1C97221800E97B70 /* CompanyCollectionViewController.h */,
+				6B6CF41C1C97221800E97B70 /* CompanyCollectionViewController.m */,
+				6B6CF41D1C97221800E97B70 /* CompanyCollectionViewController.xib */,
+			);
+			name = "Company Collection View";
+			sourceTree = "<group>";
+		};
 		6B7F19821C8A434700041AB8 /* Core Data Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -293,6 +356,58 @@
 				6B7F197F1C8A430A00041AB8 /* DataModel.xcdatamodeld */,
 			);
 			name = "Core Data Model";
+			sourceTree = "<group>";
+		};
+		6BBE0CDB1C9744AD00CE5257 /* Custom Cell */ = {
+			isa = PBXGroup;
+			children = (
+				6BBE0CD61C97447D00CE5257 /* CollectionViewCell.h */,
+				6BBE0CD71C97447D00CE5257 /* CollectionViewCell.m */,
+				6BBE0CD81C97447D00CE5257 /* CollectionViewCell.xib */,
+			);
+			name = "Custom Cell";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		6BBE0CE31C98A0CE00CE5257 /* Product Collection View */ = {
+			isa = PBXGroup;
+			children = (
+				6BBE0CDE1C98A0C700CE5257 /* ProductCollectionViewController.h */,
+				6BBE0CDF1C98A0C700CE5257 /* ProductCollectionViewController.m */,
+				6BBE0CE01C98A0C700CE5257 /* ProductCollectionViewController.xib */,
+			);
+			name = "Product Collection View";
+			sourceTree = "<group>";
+		};
+		6BBE0CE91C98A87900CE5257 /* ProductCollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				6BBE0CE41C98A86D00CE5257 /* ProductCollectionViewCell.h */,
+				6BBE0CE51C98A86D00CE5257 /* ProductCollectionViewCell.m */,
+				6BBE0CE61C98A86D00CE5257 /* ProductCollectionViewCell.xib */,
+			);
+			name = ProductCollectionViewCell;
+			sourceTree = "<group>";
+		};
+		6BBE0CEE1C99C7B200CE5257 /* AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				6BBE0CEF1C99C7C400CE5257 /* AFHTTPSessionManager.h */,
+				6BBE0CF01C99C7C400CE5257 /* AFHTTPSessionManager.m */,
+				6BBE0CF11C99C7C400CE5257 /* AFNetworking.h */,
+				6BBE0CF21C99C7C400CE5257 /* AFNetworkReachabilityManager.h */,
+				6BBE0CF31C99C7C400CE5257 /* AFNetworkReachabilityManager.m */,
+				6BBE0CF41C99C7C400CE5257 /* AFSecurityPolicy.h */,
+				6BBE0CF51C99C7C400CE5257 /* AFSecurityPolicy.m */,
+				6BBE0CF61C99C7C400CE5257 /* AFURLRequestSerialization.h */,
+				6BBE0CF71C99C7C400CE5257 /* AFURLRequestSerialization.m */,
+				6BBE0CF81C99C7C400CE5257 /* AFURLResponseSerialization.h */,
+				6BBE0CF91C99C7C400CE5257 /* AFURLResponseSerialization.m */,
+				6BBE0CFA1C99C7C400CE5257 /* AFURLSessionManager.h */,
+				6BBE0CFB1C99C7C400CE5257 /* AFURLSessionManager.m */,
+			);
+			name = AFNetworking;
+			path = NavCtrl;
 			sourceTree = "<group>";
 		};
 		6BD13C941C76449B009975E5 /* AddProductVC */ = {
@@ -447,25 +562,32 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BE7444A1C6D372D0026B08C /* delllogo.jpg in Resources */,
+				6BBE0CDD1C987B4A00CE5257 /* x-mark.png in Resources */,
 				6BE744701C6E3A650026B08C /* windows.jpg in Resources */,
+				6BBE0CE21C98A0C700CE5257 /* ProductCollectionViewController.xib in Resources */,
 				6BE7446A1C6E3A650026B08C /* ipad.jpg in Resources */,
 				6BE744681C6E3A650026B08C /* galaxytab.jpg in Resources */,
 				6BE744661C6E3A650026B08C /* galaxynote.jpg in Resources */,
 				6BE744691C6E3A650026B08C /* inspiron.jpg in Resources */,
 				6BE7444C1C6D37380026B08C /* microsoftlogo.png in Resources */,
 				6BE744501C6D37440026B08C /* appleimage.jpg in Resources */,
+				6BBE0CE81C98A86D00CE5257 /* ProductCollectionViewCell.xib in Resources */,
 				6BE7446E1C6E3A650026B08C /* office.jpg in Resources */,
 				6BE7444E1C6D373F0026B08C /* samsunglogo.jpg in Resources */,
 				6BE744671C6E3A650026B08C /* galaxys4.jpg in Resources */,
 				48A656EE1816468000746D36 /* Sunflower.gif in Resources */,
 				6BE7446F1C6E3A650026B08C /* venuepro.jpg in Resources */,
 				6B7F197C1C7F8B5700041AB8 /* NavCtrl.db in Resources */,
+				6BBE0CDA1C97447D00CE5257 /* CollectionViewCell.xib in Resources */,
+				6B6CF41F1C97221800E97B70 /* CompanyCollectionViewController.xib in Resources */,
 				6BD13C961C7644DC009975E5 /* AddProductViewController.xib in Resources */,
 				6BDBE9E91C74E5A700619E4D /* AddEditViewController.xib in Resources */,
 				48A656E718163C1B00746D36 /* CompanyViewController.xib in Resources */,
+				6BBE0CED1C99228100CE5257 /* UIKit+AFNetworking in Resources */,
 				6BE7446C1C6E3A650026B08C /* ipodtouch.jpg in Resources */,
 				48A656BF18163BF200746D36 /* InfoPlist.strings in Resources */,
 				6BE7446B1C6E3A650026B08C /* iphone.jpg in Resources */,
+				6BBE0CEB1C99227200CE5257 /* AFNetworking in Resources */,
 				6BE744651C6E3A650026B08C /* chromebook.jpg in Resources */,
 				6BE7446D1C6E3A650026B08C /* lumia.png in Resources */,
 				48A656C718163BF200746D36 /* Images.xcassets in Resources */,
@@ -487,20 +609,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BBE0D011C99C7C400CE5257 /* AFURLSessionManager.m in Sources */,
 				6B7F19811C8A430A00041AB8 /* DataModel.xcdatamodeld in Sources */,
 				6B9A49641C8DFD650072D788 /* CompanyMO.m in Sources */,
+				6BBE0CE71C98A86D00CE5257 /* ProductCollectionViewCell.m in Sources */,
 				6BD13C931C764493009975E5 /* AddProductViewController.m in Sources */,
 				6BDBE91E1C6E841000619E4D /* Product.m in Sources */,
+				6BBE0CE11C98A0C700CE5257 /* ProductCollectionViewController.m in Sources */,
 				48A656E618163C1B00746D36 /* CompanyViewController.m in Sources */,
+				6BBE0CFC1C99C7C400CE5257 /* AFHTTPSessionManager.m in Sources */,
 				6BDBE9E61C74E50C00619E4D /* AddEditViewController.m in Sources */,
 				6B7F198B1C8A4CA300041AB8 /* ProductsMO.m in Sources */,
+				6BBE0CFD1C99C7C400CE5257 /* AFNetworkReachabilityManager.m in Sources */,
 				6B9A49631C8DFD650072D788 /* CompanyMO+CoreDataProperties.m in Sources */,
 				6BDBE9191C6E83C500619E4D /* Company.m in Sources */,
+				6BBE0CD91C97447D00CE5257 /* CollectionViewCell.m in Sources */,
 				48A656C518163BF200746D36 /* NavControllerAppDelegate.m in Sources */,
+				6B6CF41E1C97221800E97B70 /* CompanyCollectionViewController.m in Sources */,
 				6BDBE9E21C737F9B00619E4D /* DAO.m in Sources */,
 				48A656C118163BF200746D36 /* main.m in Sources */,
 				48A656EB18163F8700746D36 /* ProductViewController.m in Sources */,
 				6BE744571C6D4C330026B08C /* MyWebViewViewController.m in Sources */,
+				6BBE0CFF1C99C7C400CE5257 /* AFURLRequestSerialization.m in Sources */,
+				6BBE0CFE1C99C7C400CE5257 /* AFSecurityPolicy.m in Sources */,
+				6BBE0D001C99C7C400CE5257 /* AFURLResponseSerialization.m in Sources */,
 				6B9A49621C8DFD650072D788 /* ProductsMO+CoreDataProperties.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

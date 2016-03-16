@@ -34,6 +34,25 @@
     
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if ([self.title  isEqual: @"Edit Company"]) {
+        
+        Company *company = [[[DAO sharedDAO] companies] objectAtIndex:self.indexPathRow];
+        
+        self.companyName.text = [company name];
+        self.companyLogoURL.text = [company logo];
+        self.stockSymbol.text = [company stockSym];
+    } else {
+        self.companyName.text = @"";
+        self.companyLogoURL.text = @"";
+        self.stockSymbol.text = @"";
+        
+    }
+    
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
